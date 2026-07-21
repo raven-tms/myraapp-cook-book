@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "676901244648-l41ud08tt0c9vao5c3plh4m4odo299a6.apps.googleusercontent.com",
+          "client_id": "676901244648-fu539d3be0tvhqkfgokaj23bcufulmba.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mira.recipenotebooks",
-            "certificate_hash": "c1f5993e7372f2a79d80f9537f19d60f827199b7"
+            "certificate_hash": "dd8063d4c16295d42f5e7a1efebb3c0e3e17a40d"
           }
         },
         {
