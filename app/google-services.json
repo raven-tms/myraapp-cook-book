@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "676901244648",
+    "project_id": "cookbookmira",
+    "storage_bucket": "cookbookmira.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676901244648:android:a37b9ffe51a94e1adc035d",
+        "android_client_info": {
+          "package_name": "com.mira.recipenotebooks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "676901244648-l41ud08tt0c9vao5c3plh4m4odo299a6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mira.recipenotebooks",
+            "certificate_hash": "c1f5993e7372f2a79d80f9537f19d60f827199b7"
+          }
+        },
+        {
+          "client_id": "676901244648-6511vl799q5vgddq4i4che9ku3036f1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUAaaWyk4QVllqRW_RIOYE74cksy4M7Iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "676901244648-6511vl799q5vgddq4i4che9ku3036f1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,3651 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recipe Notebook</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Lato', sans-serif;
+  --font-arabic: 'Amiri', serif;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.14);
+}
+
+/* ════════════ THEMES ════════════ */
+/* WARM CREAM */
+[data-theme="warm"][data-mode="light"] {
+  --bg:#FDF6EE;--surface:#FFF8F0;--card:#FFFFFF;
+  --accent:#C2703A;--accent2:#E8956A;--accent-light:#FDEBD8;
+  --text:#2C1A0E;--text2:#6B4226;--text3:#A07050;
+  --border:#E8D5C0;--nav:#FAF0E4;--glow:rgba(194,112,58,0.15);
+}
+[data-theme="warm"][data-mode="dark"] {
+  --bg:#1A0F07;--surface:#231408;--card:#2E1A0C;
+  --accent:#E8956A;--accent2:#C2703A;--accent-light:#3D2010;
+  --text:#F5E6D3;--text2:#C8A882;--text3:#8A6A4A;
+  --border:#3D2510;--nav:#1F1208;--glow:rgba(232,149,106,0.12);
+}
+/* SAGE GARDEN */
+[data-theme="sage"][data-mode="light"] {
+  --bg:#F2F5EF;--surface:#F8FAF5;--card:#FFFFFF;
+  --accent:#4A7C59;--accent2:#6BA07A;--accent-light:#DFF0E5;
+  --text:#1A2E20;--text2:#3D6B4A;--text3:#7A9E85;
+  --border:#C8DDD0;--nav:#EDF3EB;--glow:rgba(74,124,89,0.12);
+}
+[data-theme="sage"][data-mode="dark"] {
+  --bg:#0D1A10;--surface:#122015;--card:#182B1C;
+  --accent:#6BA07A;--accent2:#4A7C59;--accent-light:#1A3520;
+  --text:#E0F0E5;--text2:#9CC8A8;--text3:#5A8A68;
+  --border:#1E3D25;--nav:#10201A;--glow:rgba(107,160,122,0.12);
+}
+/* BERRY SWEET */
+[data-theme="berry"][data-mode="light"] {
+  --bg:#FDF0F5;--surface:#FFF5F8;--card:#FFFFFF;
+  --accent:#A03070;--accent2:#C85090;--accent-light:#F7D6E8;
+  --text:#2A0A18;--text2:#803058;--text3:#C080A0;
+  --border:#EABED4;--nav:#FCF0F6;--glow:rgba(160,48,112,0.12);
+}
+[data-theme="berry"][data-mode="dark"] {
+  --bg:#1A0510;--surface:#240A18;--card:#301020;
+  --accent:#C85090;--accent2:#A03070;--accent-light:#3A0A22;
+  --text:#F5D8E8;--text2:#C090B0;--text3:#804060;
+  --border:#3D1028;--nav:#1E0814;--glow:rgba(200,80,144,0.12);
+}
+/* INK & PAPER */
+[data-theme="ink"][data-mode="light"] {
+  --bg:#F3F3F0;--surface:#F9F9F7;--card:#FFFFFF;
+  --accent:#2A2A40;--accent2:#4A4A6A;--accent-light:#E0E0F0;
+  --text:#10101A;--text2:#404060;--text3:#808098;
+  --border:#D0D0E0;--nav:#F0F0EE;--glow:rgba(42,42,64,0.1);
+}
+[data-theme="ink"][data-mode="dark"] {
+  --bg:#0A0A12;--surface:#101018;--card:#161620;
+  --accent:#9090C0;--accent2:#7070A0;--accent-light:#1E1E30;
+  --text:#E8E8F5;--text2:#A0A0C0;--text3:#606080;
+  --border:#252535;--nav:#0D0D18;--glow:rgba(144,144,192,0.12);
+}
+/* SAFFRON SPICE */
+[data-theme="saffron"][data-mode="light"] {
+  --bg:#FDF8EE;--surface:#FFFCF3;--card:#FFFFFF;
+  --accent:#B87800;--accent2:#D49A20;--accent-light:#FFF0C0;
+  --text:#1E1400;--text2:#705000;--text3:#B08000;
+  --border:#E8D888;--nav:#FCF7E5;--glow:rgba(184,120,0,0.12);
+}
+[data-theme="saffron"][data-mode="dark"] {
+  --bg:#120E00;--surface:#1A1400;--card:#221A00;
+  --accent:#D49A20;--accent2:#B87800;--accent-light:#2E2200;
+  --text:#FFF0CC;--text2:#D4B060;--text3:#907000;
+  --border:#332800;--nav:#181200;--glow:rgba(212,154,32,0.12);
+}
+/* OCEAN MIST */
+[data-theme="ocean"][data-mode="light"] {
+  --bg:#EEF6FB;--surface:#F5FAFE;--card:#FFFFFF;
+  --accent:#1A6A9A;--accent2:#3A8EC0;--accent-light:#D0EAF8;
+  --text:#0A1E2C;--text2:#2A5070;--text3:#6090B0;
+  --border:#B8D8EE;--nav:#EAF4FA;--glow:rgba(26,106,154,0.12);
+}
+[data-theme="ocean"][data-mode="dark"] {
+  --bg:#060E14;--surface:#0A1520;--card:#0E1E2C;
+  --accent:#3A8EC0;--accent2:#1A6A9A;--accent-light:#0E2035;
+  --text:#D8EEFA;--text2:#7AB0D4;--text3:#40708A;
+  --border:#142535;--nav:#081018;--glow:rgba(58,142,192,0.12);
+}
+/* ROSE GOLD */
+[data-theme="rose"][data-mode="light"] {
+  --bg:#FEF4F0;--surface:#FFF8F5;--card:#FFFFFF;
+  --accent:#B5585A;--accent2:#D87878;--accent-light:#FDDDD8;
+  --text:#2C0E10;--text2:#803030;--text3:#C08080;
+  --border:#F0C8C0;--nav:#FDF2EE;--glow:rgba(181,88,90,0.12);
+}
+[data-theme="rose"][data-mode="dark"] {
+  --bg:#180808;--surface:#220E10;--card:#2C1214;
+  --accent:#D87878;--accent2:#B5585A;--accent-light:#3A1015;
+  --text:#F8E0DC;--text2:#D0A0A0;--text3:#906060;
+  --border:#3A1818;--nav:#1C0A0C;--glow:rgba(216,120,120,0.12);
+}
+/* FOREST NIGHT */
+[data-theme="forest"][data-mode="light"] {
+  --bg:#EFF5EE;--surface:#F6FAF5;--card:#FFFFFF;
+  --accent:#2D5A2D;--accent2:#4A8040;--accent-light:#D5EDD4;
+  --text:#0A180A;--text2:#204820;--text3:#5A8058;
+  --border:#B8D8B4;--nav:#EAF4E8;--glow:rgba(45,90,45,0.12);
+}
+[data-theme="forest"][data-mode="dark"] {
+  --bg:#050D05;--surface:#091209;--card:#0C180C;
+  --accent:#4A8040;--accent2:#2D5A2D;--accent-light:#0E200E;
+  --text:#D0ECD0;--text2:#80B878;--text3:#406840;
+  --border:#102010;--nav:#070D07;--glow:rgba(74,128,64,0.12);
+}
+/* LAVENDER DREAM */
+[data-theme="lavender"][data-mode="light"] {
+  --bg:#F4F2FB;--surface:#F8F6FD;--card:#FFFFFF;
+  --accent:#6A50A8;--accent2:#9070D0;--accent-light:#E4DDF8;
+  --text:#1A0E2C;--text2:#4A2C80;--text3:#9070B8;
+  --border:#D4CCEE;--nav:#F0EEF9;--glow:rgba(106,80,168,0.12);
+}
+[data-theme="lavender"][data-mode="dark"] {
+  --bg:#0A080F;--surface:#120E1A;--card:#18122A;
+  --accent:#9070D0;--accent2:#6A50A8;--accent-light:#201535;
+  --text:#E8E0FA;--text2:#B090E0;--text3:#6040A0;
+  --border:#281E40;--nav:#0D0B14;--glow:rgba(144,112,208,0.12);
+}
+/* MIDNIGHT COCOA */
+[data-theme="cocoa"][data-mode="light"] {
+  --bg:#F8F2EE;--surface:#FCF8F4;--card:#FFFFFF;
+  --accent:#6B3A1F;--accent2:#9A5A35;--accent-light:#F0DED0;
+  --text:#1A0C04;--text2:#5A2E14;--text3:#9A6A50;
+  --border:#E0C8B8;--nav:#F5EEE8;--glow:rgba(107,58,31,0.12);
+}
+[data-theme="cocoa"][data-mode="dark"] {
+  --bg:#0F0804;--surface:#180E08;--card:#22120A;
+  --accent:#C47840;--accent2:#9A5A35;--accent-light:#2E1408;
+  --text:#F5E8DC;--text2:#C8A070;--text3:#886040;
+  --border:#2E1A0E;--nav:#140A06;--glow:rgba(196,120,64,0.12);
+}
+/* MINT BREEZE */
+[data-theme="mint"][data-mode="light"] {
+  --bg:#EDF9F5;--surface:#F3FCF9;--card:#FFFFFF;
+  --accent:#1A8870;--accent2:#2EB090;--accent-light:#C8F0E8;
+  --text:#041A14;--text2:#0C5040;--text3:#489080;
+  --border:#AADFCF;--nav:#E8F8F2;--glow:rgba(26,136,112,0.12);
+}
+[data-theme="mint"][data-mode="dark"] {
+  --bg:#030E0A;--surface:#061510;--card:#091C15;
+  --accent:#2EB090;--accent2:#1A8870;--accent-light:#0A2018;
+  --text:#C8F0E8;--text2:#60C0A0;--text3:#2A7060;
+  --border:#0E2822;--nav:#050F0C;--glow:rgba(46,176,144,0.12);
+}
+/* CYBER NEON */
+[data-theme="cyber"][data-mode="light"] {
+  --bg:#F0F4FF;--surface:#F5F8FF;--card:#FFFFFF;
+  --accent:#3355EE;--accent2:#6688FF;--accent-light:#D5DDFF;
+  --text:#080F2C;--text2:#2A3A80;--text3:#6070BB;
+  --border:#CCDAFF;--nav:#EEF2FF;--glow:rgba(51,85,238,0.15);
+}
+[data-theme="cyber"][data-mode="dark"] {
+  --bg:#04060F;--surface:#080C1A;--card:#0C1022;
+  --accent:#6688FF;--accent2:#3355EE;--accent-light:#10163A;
+  --text:#D8DDFF;--text2:#8898EE;--text3:#4458AA;
+  --border:#182050;--nav:#060910;--glow:rgba(102,136,255,0.18);
+}
+/* VOLCANIC ASH */
+[data-theme="volcanic"][data-mode="light"] {
+  --bg:#F5F2EF;--surface:#FAF8F6;--card:#FFFFFF;
+  --accent:#8B3020;--accent2:#C05030;--accent-light:#F8E0D8;
+  --text:#1A0A06;--text2:#602010;--text3:#A86050;
+  --border:#E8C8BC;--nav:#F4F0EC;--glow:rgba(139,48,32,0.12);
+}
+[data-theme="volcanic"][data-mode="dark"] {
+  --bg:#0C0604;--surface:#140A06;--card:#1C0E08;
+  --accent:#E06040;--accent2:#A84020;--accent-light:#2A1008;
+  --text:#F8E8DC;--text2:#D09080;--text3:#885040;
+  --border:#301810;--nav:#100806;--glow:rgba(224,96,64,0.14);
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+  overflow-x: hidden;
+}
+
+/* Language-specific fonts */
+body[data-lang="ar"] { font-family: var(--font-arabic); direction: rtl; }
+
+/* ════════════ DECORATION PATTERNS ════════════ */
+.deco-bg {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index: 0;
+  transition: opacity 0.6s ease;
+}
+.page, nav { position: relative; z-index: 1; }
+
+/* Noise grain overlay */
+.deco-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ════════════ NAV ════════════ */
+nav {
+  background: var(--nav);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 62px; min-height: 62px; max-height: 62px; overflow: visible;
+  position: sticky; top: 0; z-index: 100;
+  transition: background var(--transition), border-color var(--transition);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--accent); cursor: pointer;
+  transition: opacity var(--transition);
+}
+.nav-brand:hover { opacity: 0.8; }
+.nav-brand-icon {
+  width: 38px; height: 38px;
+  background: var(--accent-light);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.nav-brand:hover .nav-brand-icon { background: var(--accent); }
+.nav-brand-text { line-height: 1.2; }
+.nav-brand-sub { font-size: 0.58rem; font-family: var(--font-body); color: var(--text3); font-weight: 500; letter-spacing: 0.1em; }
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+
+/* ════════════ BUTTONS ════════════ */
+.btn {
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--accent); background: transparent;
+  color: var(--accent); font-family: var(--font-body);
+  font-size: 0.84rem; font-weight: 700; cursor: pointer;
+  transition: all var(--transition); white-space: nowrap;
+  position: relative; overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--transition);
+  z-index: -1;
+}
+.btn:hover { color: #fff; }
+.btn:hover::before { transform: scaleX(1); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary::before { background: var(--accent2); }
+.btn-primary:hover { border-color: var(--accent2); }
+.btn-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text2); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+}
+.btn-icon:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); transform: rotate(20deg); }
+
+/* ════════════ PAGES ════════════ */
+.page {
+  display: none; padding: 2rem 1.5rem;
+  max-width: 900px; margin: 0 auto;
+  animation: fadeSlideIn 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.page.active { display: block; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════ HOME PAGE ════════════ */
+.hero {
+  text-align: center; padding: 3rem 1rem 2rem;
+}
+/* ════════════ ANIME HERO SCENE ════════════ */
+.anime-scene {
+  position: relative;
+  width: 260px; height: 300px;
+  margin: 0 auto 1.5rem;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.anime-wrapper {
+  position: relative;
+  width: 220px; height: 280px;
+  animation: animeBody 3s ease-in-out infinite;
+  filter: drop-shadow(0 12px 30px var(--glow));
+}
+@keyframes animeBody {
+  0%,100% { transform: translateY(0) rotate(-1deg); }
+  30%      { transform: translateY(-8px) rotate(1deg); }
+  60%      { transform: translateY(-4px) rotate(-0.5deg); }
+}
+.anime-img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+  border: 3px solid var(--accent);
+  box-shadow: 0 0 0 5px var(--accent-light), 0 8px 30px var(--glow);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Pan wiggle */
+@keyframes panWiggle {
+  0%,100% { transform: rotate(-8deg) translateY(0); }
+  25%      { transform: rotate(-4deg) translateY(-6px); }
+  50%      { transform: rotate(-10deg) translateY(-2px); }
+  75%      { transform: rotate(-6deg) translateY(-8px); }
+}
+
+/* Food particles flying from pan */
+.food-particle {
+  position: absolute;
+  font-size: 1.4rem;
+  pointer-events: none;
+  animation: foodFly 2.4s ease-in-out infinite;
+}
+.food-particle.p1 { top: 5%;  left: 55%; animation-delay: 0s;    animation-duration: 2.2s; font-size: 1.1rem; }
+.food-particle.p2 { top: 0%;  left: 65%; animation-delay: 0.5s;  animation-duration: 2.6s; font-size: 0.9rem; }
+.food-particle.p3 { top: 10%; left: 48%; animation-delay: 1s;    animation-duration: 2s;   font-size: 0.8rem; }
+.food-particle.p4 { top: 3%;  left: 72%; animation-delay: 1.6s;  animation-duration: 3s;   font-size: 1rem; }
+@keyframes foodFly {
+  0%   { opacity: 0;   transform: translate(0,0) rotate(0deg) scale(0.5); }
+  20%  { opacity: 1;   transform: translate(-8px,-20px) rotate(20deg) scale(1); }
+  60%  { opacity: 0.8; transform: translate(-4px,-40px) rotate(-10deg) scale(1.1); }
+  100% { opacity: 0;   transform: translate(6px,-60px) rotate(30deg) scale(0.4); }
+}
+
+/* Steam puffs above the pan area */
+.steam {
+  position: absolute;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  filter: blur(4px);
+  animation: steamRise 2s ease-out infinite;
+  pointer-events: none;
+}
+.steam.s1 { bottom: 38%; left: 60%; animation-delay: 0s; }
+.steam.s2 { bottom: 40%; left: 66%; animation-delay: 0.7s; width: 8px; height: 8px; }
+.steam.s3 { bottom: 36%; left: 55%; animation-delay: 1.4s; width: 10px; height: 10px; }
+@keyframes steamRise {
+  0%   { opacity: 0.8; transform: translateY(0) scaleX(1); }
+  100% { opacity: 0;   transform: translateY(-40px) scaleX(2); }
+}
+
+/* Sparkles around the image */
+.sparkle {
+  position: absolute;
+  color: var(--accent);
+  font-size: 1rem;
+  pointer-events: none;
+  animation: sparklePop 2s ease-in-out infinite;
+}
+.sparkle.sp1 { top: 10%; left: -5%;  animation-delay: 0s;    font-size: 0.8rem; }
+.sparkle.sp2 { top: 50%; right: -8%; animation-delay: 0.8s;  font-size: 1.1rem; }
+.sparkle.sp3 { bottom: 20%; left: -8%; animation-delay: 1.5s; font-size: 0.7rem; }
+@keyframes sparklePop {
+  0%,100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  50%      { opacity: 1; transform: scale(1.3) rotate(20deg); }
+}
+
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 2.6rem; color: var(--accent);
+  margin-bottom: 0.5rem; line-height: 1.2;
+}
+.hero p { color: var(--text3); font-size: 1rem; margin-bottom: 2rem; }
+.stats-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-bottom: 2rem;
+}
+.stat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem 1rem; text-align: center;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.stat-card .stat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.stat-card .stat-num {
+  font-size: 2.2rem; font-weight: 700; color: var(--accent);
+  font-family: var(--font-display);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.stat-card .stat-label { font-size: 0.8rem; color: var(--text3); margin-top: 2px; }
+.home-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+/* ════════════ RECIPE LIST ════════════ */
+.search-bar { display:flex; gap:10px; margin-bottom:1.5rem; align-items:center; }
+.search-bar input {
+  flex: 1; padding: 11px 16px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text); font-family: var(--font-body); font-size: 0.9rem;
+  transition: all var(--transition);
+}
+.search-bar input:focus { outline: none; border-color: var(--accent); background: var(--card); box-shadow: 0 0 0 3px var(--glow); }
+.filter-chips { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.5rem; }
+.chip {
+  padding: 5px 14px; border-radius: 20px; font-size: 0.78rem;
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text2); cursor: pointer; transition: all var(--transition);
+  white-space: nowrap;
+}
+.chip.active, .chip:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-1px); }
+.recipes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.recipe-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+}
+.recipe-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-lg), 0 0 20px var(--glow); }
+.recipe-card-img {
+  height: 130px; background: var(--accent-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.8rem; overflow: hidden; position: relative;
+}
+.recipe-card-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.08));
+  pointer-events: none;
+}
+.recipe-card-img img { width:100%; height:100%; object-fit:cover; }
+.recipe-card-body { padding: 0.85rem; }
+.recipe-card-title {
+  font-family: var(--font-display); font-size: 0.95rem;
+  font-weight: 600; color: var(--text); margin-bottom: 5px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.recipe-card-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag-pill {
+  padding: 2px 9px; border-radius: 10px; font-size: 0.7rem;
+  background: var(--accent-light); color: var(--accent); font-weight: 700;
+}
+.empty-state { text-align: center; padding: 4rem 1rem; color: var(--text3); grid-column: span 2; }
+.empty-state .empty-icon { font-size: 4rem; margin-bottom: 1rem; animation: animeBody 3s ease-in-out infinite; }
+.empty-state p { font-family: var(--font-display); font-size: 1.2rem; color: var(--text2); }
+
+/* ════════════ RECIPE FORM ════════════ */
+.form-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+.form-section-title {
+  font-size: 0.68rem; letter-spacing: 0.14em; font-weight: 700;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.form-group { margin-bottom: 1.2rem; }
+label { display: block; }
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text); font-family: var(--font-body); font-size: 0.9rem;
+  transition: all var(--transition); resize: vertical;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none; border-color: var(--accent); background: var(--card);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+.form-select option { background: var(--card); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+.photo-upload {
+  height: 140px; border: 2px dashed var(--border); border-radius: var(--radius);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 0.85rem; color: var(--text3);
+  transition: all var(--transition); background: var(--surface); overflow: hidden; position: relative;
+}
+.photo-upload:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.photo-upload img { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; }
+.photo-upload span { position: relative; z-index: 1; text-align: center; line-height: 1.8; }
+.divider { height: 1px; background: var(--border); margin: 1.2rem 0; }
+.form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem; }
+
+/* ════════════ RECIPE VIEW ════════════ */
+.recipe-view-header {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.recipe-view-img {
+  height: 220px; background: var(--accent-light);
+  display: flex; align-items: center; justify-content: center; font-size: 5rem;
+  overflow: hidden; position: relative;
+}
+.recipe-view-img::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.06));
+}
+.recipe-view-img img { width:100%; height:100%; object-fit:cover; }
+.recipe-view-info { padding: 1.4rem; }
+.recipe-view-title {
+  font-family: var(--font-display); font-size: 1.7rem;
+  font-weight: 700; color: var(--accent); margin-bottom: 0.5rem;
+}
+.recipe-view-desc { color: var(--text2); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.7; }
+.meta-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+.meta-chip {
+  padding: 5px 13px; border-radius: 20px; font-size: 0.78rem;
+  background: var(--accent-light); color: var(--accent);
+  border: 1px solid var(--border); display: flex; gap: 5px; align-items: center;
+}
+.recipe-section {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.35rem; margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.recipe-section h3 {
+  font-family: var(--font-display); color: var(--accent);
+  font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.ingredient-list { list-style: none; }
+.ingredient-list li {
+  padding: 7px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.9rem; display: flex; align-items: center; gap: 10px; color: var(--text);
+  transition: background var(--transition);
+}
+.ingredient-list li::before { content: '•'; color: var(--accent); font-weight: bold; font-size: 1.2rem; }
+.method-list { list-style: none; counter-reset: step; }
+.method-list li {
+  padding: 10px 0 10px 44px; border-bottom: 1px solid var(--border);
+  font-size: 0.9rem; position: relative; color: var(--text); line-height: 1.6;
+}
+.method-list li::before {
+  counter-increment: step; content: counter(step);
+  position: absolute; left: 0; width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700;
+}
+body[data-lang="ar"] .method-list li { padding-left: 0; padding-right: 44px; }
+body[data-lang="ar"] .method-list li::before { left: auto; right: 0; }
+.tips-box {
+  background: var(--accent-light); border-radius: var(--radius-sm);
+  padding: 1rem 1.2rem; font-size: 0.9rem; color: var(--text2); line-height: 1.7;
+  border-left: 3px solid var(--accent);
+}
+body[data-lang="ar"] .tips-box { border-left: none; border-right: 3px solid var(--accent); }
+.view-actions { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+.view-actions-left { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
+.view-actions-right { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ── Redesigned recipe-view toolbar ── */
+.view-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 1.25rem; flex-wrap: wrap;
+}
+.view-back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 4px; border: none; background: transparent; cursor: pointer;
+  color: var(--text2); font-family: var(--font-body); font-weight: 700; font-size: 0.86rem;
+  transition: var(--transition); border-radius: var(--radius-sm);
+}
+.view-back-link .arrow { transition: transform var(--transition); font-size: 1rem; }
+.view-back-link:hover { color: var(--accent); }
+.view-back-link:hover .arrow { transform: translateX(-3px); }
+[dir="rtl"] .view-back-link:hover .arrow { transform: translateX(3px); }
+.view-toolbar-group {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 999px; padding: 5px; box-shadow: var(--shadow);
+}
+.view-toolbar-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: none; background: transparent; color: var(--text2);
+  font-size: 1rem; cursor: pointer; transition: var(--transition);
+  position: relative;
+}
+.view-toolbar-btn:hover { background: var(--accent-light); color: var(--accent); transform: translateY(-2px); }
+.view-toolbar-btn.danger { color: #e44; }
+.view-toolbar-btn.danger:hover { background: rgba(228,68,68,0.14); color: #e44; }
+.view-toolbar-divider { width: 1px; align-self: stretch; margin: 4px 2px; background: var(--border); }
+.view-toolbar-btn .tooltip {
+  position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%) translateY(-4px);
+  background: var(--text); color: var(--bg); font-size: 0.65rem; font-weight: 700;
+  padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: var(--transition); letter-spacing: .02em;
+}
+.view-toolbar-btn:hover .tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+@media (max-width: 480px) {
+  .view-toolbar-btn .tooltip { display: none; }
+}
+
+/* ── Share Modal ── */
+.share-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  z-index: 500; display: flex; align-items: flex-end; justify-content: center;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.share-overlay.open { opacity: 1; pointer-events: all; }
+.share-sheet {
+  background: var(--card); border-radius: 24px 24px 0 0;
+  width: 100%; max-width: 560px; padding: 1.4rem 1.4rem calc(1.4rem + env(safe-area-inset-bottom));
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
+  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.34,1.1,0.64,1);
+}
+.share-overlay.open .share-sheet { transform: translateY(0); }
+.share-handle {
+  width: 44px; height: 5px; background: var(--border);
+  border-radius: 3px; margin: 0 auto 1.2rem; cursor: pointer;
+}
+.share-title {
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 1rem; text-align: center;
+}
+.share-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.share-option {
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  padding: 1rem 0.8rem; cursor: pointer; text-align: center;
+  background: var(--surface); transition: all var(--transition);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.share-option:hover { border-color: var(--accent); background: var(--accent-light); transform: translateY(-2px); box-shadow: var(--shadow); }
+.share-option-icon { font-size: 2rem; }
+.share-option-label { font-size: 0.82rem; font-weight: 700; color: var(--text2); }
+.share-option-desc { font-size: 0.7rem; color: var(--text3); line-height: 1.3; }
+.share-copy-row {
+  margin-top: 1rem; padding: 0.75rem 1rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  display: flex; gap: 8px; align-items: center;
+}
+.share-copy-url {
+  flex: 1; font-size: 0.75rem; color: var(--text3);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: monospace;
+}
+.share-copy-btn {
+  padding: 5px 12px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--accent); background: transparent;
+  color: var(--accent); font-size: 0.75rem; font-weight: 700;
+  cursor: pointer; white-space: nowrap; transition: all var(--transition);
+}
+.share-copy-btn:hover { background: var(--accent); color: #fff; }
+
+/* ── Share modal ── */
+.share-modal-overlay {
+  position: fixed; inset: 0; background: rgba(20,14,8,0.5);
+  z-index: 250; display: flex; align-items: flex-end; justify-content: center;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  padding: 1rem;
+  opacity: 0; pointer-events: none; transition: opacity var(--transition);
+}
+.share-modal-overlay.show { opacity: 1; pointer-events: all; }
+.share-modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 26px 26px 18px 18px; padding: 1.6rem 1.5rem 1.75rem; width: 100%; max-width: 460px;
+  transform: translateY(60px); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 -12px 48px rgba(0,0,0,0.24);
+}
+@media (min-width: 640px) {
+  .share-modal-overlay { align-items: center; }
+  .share-modal { transform: translateY(24px) scale(0.97); border-radius: 22px; }
+  .share-modal-overlay.show .share-modal { transform: translateY(0) scale(1); }
+}
+.share-modal-overlay.show .share-modal { transform: translateY(0); }
+.share-modal::before {
+  content: ''; display: block; width: 40px; height: 4px; border-radius: 3px;
+  background: var(--border); margin: -6px auto 14px;
+}
+@media (min-width: 640px) { .share-modal::before { display: none; } }
+.share-modal-title {
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--text);
+  margin-bottom: 1.15rem; display: flex; align-items: center; justify-content: space-between;
+}
+.share-modal-title-text { display: flex; align-items: center; gap: 8px; }
+/* ══ DELETE CONFIRM MODAL ══ */
+.confirm-modal { text-align: center; max-width: 380px; }
+.confirm-modal-icon {
+  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 1rem;
+  display: flex; align-items: center; justify-content: center; font-size: 1.7rem;
+  background: linear-gradient(145deg, rgba(228,68,68,0.16), rgba(228,68,68,0.06));
+  border: 1px solid rgba(228,68,68,0.25);
+}
+.confirm-modal-title {
+  font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text);
+  margin-bottom: .5rem;
+}
+.confirm-modal-text {
+  font-family: var(--font-body); font-size: .88rem; color: var(--text3); line-height: 1.5;
+  margin-bottom: 1.4rem;
+}
+.confirm-modal-actions { display: flex; gap: .7rem; }
+.confirm-modal-actions .btn-cancel {
+  flex: 1; padding: 12px; border-radius: var(--radius-sm); cursor: pointer;
+  border: 1.5px solid var(--border); background: transparent; color: var(--text2);
+  font-family: var(--font-body); font-size: .88rem; font-weight: 700; transition: var(--transition);
+}
+.confirm-modal-actions .btn-cancel:hover { background: var(--surface); }
+.confirm-modal-actions .btn-danger {
+  flex: 1; padding: 12px; border-radius: var(--radius-sm); cursor: pointer; border: none;
+  background: #e44; color: #fff; font-family: var(--font-body); font-size: .88rem; font-weight: 700;
+  transition: var(--transition); box-shadow: 0 6px 18px rgba(228,68,68,0.3);
+}
+.confirm-modal-actions .btn-danger:hover { background: #d33; }
+.share-close-btn {
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; border: 1px solid var(--border); background: var(--surface);
+  color: var(--text3); font-size: 0.8rem; cursor: pointer; transition: all var(--transition); flex-shrink: 0;
+}
+.share-close-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+.share-section-label {
+  font-size: 0.68rem; letter-spacing: 0.1em; font-weight: 700;
+  color: var(--text3); text-transform: uppercase; margin: 1.15rem 0 0.65rem;
+}
+.share-section-label:first-of-type { margin-top: 0; }
+.share-btn-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 9px; }
+.share-action-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 14px 8px 11px; border-radius: 16px;
+  border: 1.5px solid var(--border); background: var(--surface);
+  color: var(--text2); font-family: var(--font-body); font-size: 0.72rem; font-weight: 600;
+  cursor: pointer; transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  text-align: center; line-height: 1.25;
+}
+.share-action-btn:hover {
+  border-color: var(--accent); color: var(--accent); background: var(--accent-light);
+  transform: translateY(-2px); box-shadow: 0 6px 16px -6px rgba(0,0,0,0.18);
+}
+.share-action-btn:active { transform: translateY(0); }
+.share-action-btn .share-icon {
+  font-size: 1.35rem; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--accent-light); flex-shrink: 0;
+}
+
+/* ── Floating back button (form page) ── */
+.form-back-btn {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 1rem;
+  background: none; border: none; cursor: pointer;
+  color: var(--text3); font-size: 0.85rem; font-weight: 700;
+  font-family: var(--font-body); transition: color var(--transition); padding: 0;
+}
+.form-back-btn:hover { color: var(--accent); }
+
+
+/* ════════════ SETTINGS MODAL ════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  z-index: 200; display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  padding: 1rem;
+  opacity: 0; pointer-events: none; transition: opacity var(--transition);
+}
+.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 22px; padding: 1.75rem; width: 100%; max-width: 480px;
+  max-height: 92vh; overflow-y: auto;
+  transform: scale(0.92) translateY(20px); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+}
+.modal-overlay.show .modal { transform: scale(1) translateY(0); }
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.modal-title { font-family: var(--font-display); font-size: 1.35rem; color: var(--accent); }
+.settings-label {
+  font-size: 0.64rem; letter-spacing: 0.15em; font-weight: 700;
+  color: var(--text3); text-transform: uppercase; margin-bottom: 10px; margin-top: 1.4rem;
+  display: flex; align-items: center; gap: 6px;
+}
+.settings-label::before { content: ''; flex: 1; height: 1px; background: var(--border); }
+.settings-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* Theme grid - 3 columns on wider modal */
+.theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.theme-option {
+  border: 2px solid var(--border); border-radius: var(--radius-sm);
+  padding: 9px 12px; cursor: pointer; display: flex; align-items: center; gap: 9px;
+  transition: all var(--transition); font-size: 0.82rem; color: var(--text2);
+  background: var(--surface);
+}
+.theme-option:hover, .theme-option.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.theme-option.active { box-shadow: 0 0 0 1px var(--accent); }
+.theme-dot {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.theme-dot-dual {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  position: relative; overflow: hidden;
+}
+.theme-dot-dual::after {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 50%; height: 100%;
+}
+
+/* Deco grid */
+.deco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 1rem; }
+.deco-option {
+  border: 2px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: all var(--transition); font-size: 0.82rem; color: var(--text2);
+  background: var(--surface);
+}
+.deco-option:hover, .deco-option.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.deco-option.active { box-shadow: 0 0 0 1px var(--accent); }
+
+/* Font size selector */
+.font-size-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 7px; margin-bottom: 1rem; }
+.font-size-option {
+  border: 2px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px 6px; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; transition: all var(--transition);
+  color: var(--text2); background: var(--surface); text-align: center; font-weight: 700;
+}
+.font-size-option small { font-size: 0.65rem; font-weight: 400; color: var(--text3); }
+.font-size-option:hover, .font-size-option.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.font-size-option.active { box-shadow: 0 0 0 1px var(--accent); }
+
+/* Radius selector */
+.radius-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; margin-bottom: 1rem; }
+.radius-option {
+  border: 2px solid var(--border); border-radius: 8px !important;
+  padding: 8px; cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; gap: 5px; transition: all var(--transition);
+  font-size: 0.75rem; color: var(--text2); background: var(--surface);
+}
+.radius-option:hover, .radius-option.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.radius-option.active { box-shadow: 0 0 0 1px var(--accent); }
+.radius-preview {
+  width: 32px; height: 22px; background: var(--accent-light);
+  border: 2px solid var(--accent);
+}
+
+/* Mode toggle */
+.mode-toggle { display: flex; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden; margin-bottom: 1rem; }
+.mode-btn { flex: 1; padding: 9px; border: none; background: transparent; cursor: pointer; font-family: var(--font-body); font-size: 0.85rem; color: var(--text2); transition: all var(--transition); }
+.mode-btn.active { background: var(--accent); color: #fff; }
+
+/* Lang grid */
+.lang-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+.lang-option {
+  border: 2px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px; cursor: pointer; text-align: center; font-size: 0.78rem;
+  color: var(--text2); background: var(--surface); transition: all var(--transition);
+}
+.lang-option:hover, .lang-option.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.lang-option.active { box-shadow: 0 0 0 1px var(--accent); }
+.lang-native { font-weight: 700; display: block; font-size: 1rem; }
+
+/* ════════════ TOAST ════════════ */
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; padding: 11px 22px;
+  border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+  z-index: 300; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap; box-shadow: 0 8px 30px var(--glow);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ════════════ SCROLLBAR ════════════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ════════════ FONT SIZE VARIANTS ════════════ */
+/* Sizes are applied directly via JS to :root */
+body { font-size: var(--fs-base, 0.9rem); }
+.hero h1 { font-size: var(--fs-title, 2.6rem) !important; }
+.recipe-card-title { font-size: var(--fs-card-title, 0.95rem) !important; }
+.recipe-view-title { font-size: var(--fs-view-title, 1.7rem) !important; }
+.form-input, .form-select, .form-textarea { font-size: var(--fs-base, 0.9rem) !important; }
+.search-bar input { font-size: var(--fs-base, 0.9rem) !important; }
+.nav-brand { font-size: calc(var(--fs-base, 0.9rem) * 1.4) !important; }
+.recipe-view-desc, .ingredient-list li, .method-list li, .tips-box { font-size: var(--fs-base, 0.9rem) !important; }
+.btn { font-size: var(--fs-base, 0.9rem) !important; }
+.chip, .tag-pill, .meta-chip { font-size: calc(var(--fs-base, 0.9rem) * 0.82) !important; }
+.stat-card .stat-num { font-size: calc(var(--fs-base, 0.9rem) * 2.4) !important; }
+
+/* ════════════ RADIUS VARIANTS ════════════ */
+/* Applied via JS directly to :root so all var(--radius) usages update */
+[data-corner="sharp"] { --radius: 5px !important; --radius-sm: 3px !important; }
+[data-corner="round"]  { --radius: 18px !important; --radius-sm: 10px !important; }
+[data-corner="pill"]   { --radius: 32px !important; --radius-sm: 18px !important; }
+
+/* Ensure all elements that use border-radius pick up the CSS variable */
+.recipe-card, .form-card, .stat-card, .recipe-view-header, .recipe-section,
+.modal, .photo-upload, .hero-icon, .nav-brand-icon, .tips-box {
+  border-radius: var(--radius) !important;
+}
+.btn, .form-input, .form-select, .form-textarea, .search-bar input,
+.chip, .tag-pill, .meta-chip, .deco-option, .theme-option, .lang-option,
+.font-size-option, .radius-option, .mode-toggle, .mode-btn:first-child,
+.recipe-card-img, .recipe-view-img {
+  border-radius: var(--radius-sm) !important;
+}
+.btn-icon, .method-list li::before { border-radius: 50% !important; }
+.toast { border-radius: 50px !important; }
+.tag-pill, .meta-chip, .chip { border-radius: calc(var(--radius-sm) * 2) !important; }
+
+/* ════════════ RESPONSIVE ════════════ */
+@media (max-width: 480px) {
+  .form-row { grid-template-columns: 1fr 1fr; }
+  .form-row .form-group:last-child { grid-column: span 2; }
+  .recipes-grid { grid-template-columns: 1fr; }
+  nav { padding: 0 1rem; }
+  .hero h1 { font-size: 2rem; }
+  .theme-grid { grid-template-columns: 1fr; }
+  .anime-scene { width: 200px; height: 230px; }
+  .anime-wrapper { width: 170px; height: 215px; }
+  .stats-row { gap: 0.7rem; }
+  .stat-card { padding: 1.1rem 0.7rem; }
+  .home-btns { gap: 0.7rem; }
+  .modal { padding: 1.25rem; border-radius: 18px; }
+}
+
+/* ════════════ NAV: FIT INSIDE PHONE WIDTH ════════════ */
+/* The nav bar packs brand + 2 buttons + lang switcher + settings + user
+   badge on one line. On phones this used to overflow past the screen edge
+   (hidden by overflow-x:hidden on body, so it just got silently clipped).
+   Below this width we shrink everything and drop the least essential bits
+   (language quick-switch, button labels, user name) so the whole bar
+   always fits, with no clipped/unreachable controls. */
+@media (max-width: 560px) {
+  nav { padding: 0 0.75rem; height: 56px; min-height: 56px; max-height: 56px; }
+  .nav-actions { gap: 5px; }
+  .nav-brand { gap: 7px; }
+  .nav-brand-icon { width: 32px; height: 32px; font-size: 1.05rem; }
+  .nav-brand-sub { display: none; }
+  #nav-brand-title { font-size: 0.98rem !important; }
+
+  .btn { padding: 7px 9px; font-size: 0.76rem; }
+  #btn-browse #txt-recipes, #btn-new #txt-new { display: none; }
+  #btn-browse { padding: 7px 8px; }
+
+  .nav-actions .lang-switcher { display: none; }
+
+  .btn-icon { width: 32px; height: 32px; font-size: 0.9rem; }
+  #btn-nav-export, #btn-nav-import { display: none; }
+
+  .nav-user-badge { padding: 3px 4px 3px 3px; gap: 5px; }
+  .nav-user-avatar { width: 22px; height: 22px; font-size: 0.68rem; }
+  .nav-user-name { display: none; }
+  .nav-signout-btn { font-size: 0.68rem; padding: 3px 5px; }
+}
+@media (max-width: 360px) {
+  #btn-browse #recipeCountWrap { display: none; }
+}
+@media (max-width: 420px) {
+  nav { padding: 0 0.5rem; }
+  .nav-actions { gap: 3px; }
+  .btn-icon { width: 28px; height: 28px; font-size: 0.8rem; }
+  #favToggleBtn, #page-list .search-bar .btn-icon { font-size: 17px !important; width: 30px; height: 30px; }
+}
+@media (max-width: 480px) {
+  #page-list .search-bar { flex-wrap: wrap; }
+  #page-list .search-bar input { min-width: 0; flex: 1 1 100%; order: -1; }
+  #activeFilterBanner { flex-wrap: wrap; }
+  #collectionsGrid, .recipes-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 560px) {
+  .theme-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* ════════════ MOBILE: LOGIN / LOCK / POPUP SCREENS AS FIXED FULL PAGES ════════════ */
+/* On phones these screens (sign-in, account-locked, settings, add/edit recipe)
+   no longer float as a small centered card with visible empty space around
+   them — they fill the entire screen edge-to-edge like a real app screen. */
+@media (max-width: 640px) {
+  #authOverlay, #accessLockOverlay { padding: 0; }
+  .auth-card, .lock-card {
+    max-width: none; width: 100%; min-height: 100vh; min-height: 100dvh;
+    margin: 0; border: none; border-radius: 0; box-shadow: none;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 56px 28px 40px;
+  }
+  .lock-card { justify-content: flex-start; }
+  .modal-overlay {
+    padding: 0; align-items: stretch; justify-content: stretch;
+    background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  .modal {
+    max-width: none; width: 100%; height: 100vh; height: 100dvh; max-height: none;
+    border: none; border-radius: 0; box-shadow: none;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ════════════ GOOGLE SIGN-IN / ACCOUNT SYNC ════════════ */
+#authOverlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+#authOverlay.hidden { display: none; }
+body.auth-active { overflow: hidden; }
+.auth-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  max-width: 380px; width: 100%; padding: 40px 32px;
+  text-align: center; position: relative;
+  margin: auto;
+}
+.auth-card .auth-icon { font-size: 2.6rem; margin-bottom: 12px; }
+.auth-card h2 {
+  font-family: var(--font-display); font-size: 1.4rem;
+  color: var(--text); margin-bottom: 8px;
+}
+.auth-card p { color: var(--text2); font-size: 0.9rem; margin-bottom: 26px; line-height: 1.5; }
+.google-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 13px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); font-family: var(--font-body); font-size: 0.95rem;
+  font-weight: 700; cursor: pointer; transition: var(--transition);
+}
+.google-btn:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.google-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.auth-error {
+  display: none; margin-top: 14px; padding: 10px 12px;
+  border-radius: var(--radius-sm); background: rgba(200,40,40,0.1);
+  color: #C0302A; font-size: 0.82rem; text-align: left;
+}
+.auth-note { margin-top: 18px; font-size: 0.75rem; color: var(--text3); }
+
+/* ===== ACCESS LOCK OVERLAY (shown when account is not an active subscriber) ===== */
+#accessLockOverlay {
+  position: fixed; inset: 0; z-index: 999999;
+  background: var(--bg);
+  display: none;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+#accessLockOverlay.visible { display: flex !important; }
+.lock-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  text-align: center; max-width: 400px; width: 100%;
+  padding: 40px 32px 32px; position: relative;
+  margin: auto;
+}
+.lock-icon {
+  width: 60px; height: 60px; margin: 0 auto 16px;
+  background: linear-gradient(135deg, #C0302A, #8E211D);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; box-shadow: 0 8px 24px rgba(192,48,42,0.3);
+}
+.lock-title {
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+  color: var(--text); margin-bottom: 12px;
+}
+.lock-message {
+  background: rgba(192,48,42,0.08); border: 1px solid rgba(192,48,42,0.3);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-size: 0.88rem; color: #C0302A; line-height: 1.8;
+  margin-bottom: 22px; font-weight: 600;
+}
+.lock-contacts-label {
+  font-size: 0.75rem; color: var(--text3); font-weight: 700; margin-bottom: 10px;
+}
+.lock-contacts { display: flex; flex-direction: column; gap: 9px; margin-bottom: 16px; }
+.lock-contact-btn {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  width: 100%; padding: 11px 14px;
+  border-radius: var(--radius-sm); cursor: pointer; text-decoration: none;
+  font-family: var(--font-body); font-size: 0.85rem; font-weight: 700;
+  transition: var(--transition); border: 1.5px solid var(--border);
+}
+.lock-contact-btn:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.lock-contact-btn.telegram { background: #229ED9; color: #fff; border-color: #229ED9; }
+.lock-contact-btn.instagram { background: linear-gradient(135deg,#f58529,#dd2a7b,#8134af); color: #fff; border-color: transparent; }
+.lock-contact-btn.gmail { background: var(--surface); color: var(--text); border-color: var(--border); }
+.lock-divider { height: 1px; background: var(--border); margin: 16px 0 12px; }
+.lock-logout-btn {
+  width: 100%; padding: 11px 14px; background: transparent;
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  cursor: pointer; font-family: var(--font-body); font-size: 0.82rem;
+  font-weight: 700; color: var(--text2); transition: var(--transition);
+}
+.lock-logout-btn:hover { border-color: #C0302A; color: #C0302A; }
+.lock-checking { font-size: 0.8rem; color: var(--text3); margin-top: 6px; }
+
+.nav-user-badge {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 99px; padding: 4px 6px 4px 4px;
+  flex-shrink: 0;
+}
+.nav-user-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  object-fit: cover; display: flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem;
+  flex-shrink: 0;
+}
+.nav-user-name {
+  font-size: 0.8rem; color: var(--text2); font-weight: 600;
+  max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nav-signout-btn {
+  border: none; background: transparent; color: var(--text3);
+  font-size: 0.78rem; cursor: pointer; padding: 4px 8px;
+  white-space: nowrap; flex-shrink: 0; line-height: 1.2;
+}
+.nav-signout-btn:hover { color: var(--accent); }
+
+/* ===== QUICK LANGUAGE SWITCHER (no need to open settings) ===== */
+.lang-switcher {
+  display: flex; gap: 3px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 11px; padding: 3px;
+}
+.lang-opt {
+  padding: 4px 9px; border-radius: 8px; border: none; background: transparent;
+  color: var(--text2); font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  transition: var(--transition); font-family: var(--font-body);
+}
+.lang-opt:hover { background: var(--accent-light); }
+.lang-opt.active { background: var(--accent); color: #fff; }
+
+/* ════════════ VOICE RECORDER ════════════ */
+.voice-recorder-section { margin-top: 0.5rem; }
+.voice-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  gap: 0;
+  box-shadow: var(--shadow);
+}
+.voice-panel {
+  padding: 1.2rem 1.1rem 1rem;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.voice-divider {
+  background: var(--border);
+  width: 2px;
+}
+.voice-panel-title {
+  font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em;
+  color: var(--text2); text-align: center;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+
+/* Visualizer */
+.voice-visualizer {
+  width: 100%; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--card); border-radius: var(--radius-sm);
+  border: 1px solid var(--border); overflow: hidden; padding: 6px 8px;
+}
+.voice-bar-wrap { display: flex; align-items: center; gap: 3px; height: 100%; }
+.vbar {
+  width: 4px; height: 8px;
+  background: var(--accent);
+  border-radius: 3px;
+  opacity: 0.3;
+  transition: height 0.08s ease;
+  flex-shrink: 0;
+}
+.vbar.active { opacity: 1; }
+@keyframes barIdle {
+  0%,100% { height: 6px; } 50% { height: 14px; }
+}
+
+/* Timer */
+.voice-timer {
+  font-family: 'Courier New', monospace; font-size: 1.3rem; font-weight: 700;
+  color: var(--accent); letter-spacing: 2px;
+}
+
+/* Recorder buttons */
+.voice-rec-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.voice-btn {
+  padding: 7px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border); background: var(--card);
+  color: var(--text2); font-family: var(--font-body); font-size: 0.8rem;
+  font-weight: 700; cursor: pointer; transition: all var(--transition);
+  display: flex; align-items: center; gap: 5px;
+}
+.voice-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.voice-btn-rec { border-color: #e44; color: #e44; }
+.voice-btn-rec:hover { background: #e44; color: #fff; }
+.voice-btn-rec.recording { background: #e44; color: #fff; animation: recPulse 1s ease-in-out infinite; }
+@keyframes recPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(238,68,68,0.4); } 50% { box-shadow: 0 0 0 8px rgba(238,68,68,0); } }
+.voice-btn-stop { border-color: var(--text3); }
+.voice-btn-stop:hover { background: var(--text3); color: #fff; }
+.voice-btn-clear { border-color: var(--text3); font-size: 0.75rem; }
+.voice-btn-copy { border-color: var(--accent); color: var(--accent); font-size: 0.75rem; }
+.voice-btn-copy:hover { background: var(--accent); color: #fff; }
+.voice-btn-add { border-color: #4a7; color: #4a7; font-size: 0.75rem; }
+.voice-btn-add:hover { background: #4a7; color: #fff; }
+
+/* Status */
+.voice-status {
+  font-size: 0.75rem; color: var(--text3); text-align: center;
+  min-height: 16px; transition: color var(--transition);
+}
+.voice-status.listening { color: #e44; font-weight: 700; }
+.voice-status.ok { color: #4a7; }
+
+/* Transcription lang buttons */
+.voice-lang-row { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.voice-lang-btn {
+  padding: 5px 11px; border-radius: 30px;
+  border: 1.5px solid var(--border); background: var(--card);
+  color: var(--text2); font-family: var(--font-body); font-size: 0.75rem;
+  font-weight: 700; cursor: pointer; transition: all var(--transition);
+}
+.voice-lang-btn:hover, .voice-lang-btn.active {
+  border-color: var(--accent); color: var(--accent); background: var(--accent-light);
+}
+.voice-lang-btn.active { box-shadow: 0 0 0 1px var(--accent); }
+
+/* Mic button with ring animation */
+.voice-mic-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 72px; height: 72px; }
+.voice-mic-btn {
+  width: 60px; height: 60px; border-radius: 50%;
+  border: 2.5px solid var(--accent); background: var(--accent-light);
+  color: var(--accent); font-size: 1.6rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition); z-index: 2; position: relative;
+  box-shadow: 0 4px 15px var(--glow);
+}
+.voice-mic-btn:hover { background: var(--accent); color: #fff; transform: scale(1.05); }
+.voice-mic-btn.listening { background: var(--accent); color: #fff; }
+.voice-mic-ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid var(--accent); opacity: 0;
+  transform: scale(1); pointer-events: none;
+}
+.voice-mic-ring.animate {
+  animation: micRing 1.2s ease-out infinite;
+}
+@keyframes micRing {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* Transcript area */
+.voice-transcript-area { font-size: 0.88rem !important; resize: vertical; }
+.voice-transcript-btns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+
+/* Responsive voice card */
+@media (max-width: 560px) {
+  .voice-card { grid-template-columns: 1fr; grid-template-rows: auto 2px auto; }
+  .voice-divider { width: 100%; height: 2px; }
+}
+</style>
+</head>
+<body data-theme="warm" data-mode="light" data-lang="en" data-font="classic" data-corner="round">
+
+<!-- ===== FIREBASE CONFIG (hardcoded, same project as the Habit Tracker) ===== -->
+<script>
+(function() {
+  const HARDCODED_CONFIG = {
+    apiKey: "AIzaSyD1pBwVC0mORWH3kx29BLl1iW0VFw5vPEo",
+    authDomain: "cookbookmira.firebaseapp.com",
+    projectId: "cookbookmira",
+    storageBucket: "cookbookmira.firebasestorage.app",
+    messagingSenderId: "676901244648",
+    appId: "1:676901244648:web:dfc16117ed9738dedc035d"
+  };
+  window._fbsGetSavedConfig = function() { return HARDCODED_CONFIG; };
+})();
+</script>
+
+<!-- ===== FIREBASE SDK MODULE ===== -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, onSnapshot }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  window._fbsDynamicInit = async function(cfg) {
+    const app  = initializeApp(cfg);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+    // يجبر جوجل على إظهار نافذة اختيار الحساب في كل مرة (يحل مشكلة انتقال بعض متصفحات
+    // الأندرويد مباشرة لآخر حساب/إيميل تم استخدامه دون عرض قائمة الاختيار).
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    window._fbAuth = auth;
+    window._fbDb   = db;
+    window._fbDoc  = doc;
+    window._fbGetDoc = getDoc;
+    window._fbSetDoc = setDoc;
+    window._fbOnSnapshot = onSnapshot;
+    window._fbProvider = provider;
+    window._fbSignInWithPopup = signInWithPopup;
+    window._fbSignInWithRedirect = signInWithRedirect;
+    window._fbGetRedirectResult = getRedirectResult;
+    window._fbSignOut = signOut;
+
+    try {
+      const result = await getRedirectResult(auth);
+      if (result && result.user) { /* picked up by onAuthStateChanged below */ }
+    } catch (e) {
+      console.warn('Redirect result error:', e);
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      window._currentUser = user;
+      if (typeof window._onAuthReady === 'function') window._onAuthReady(user);
+    });
+  };
+
+  const saved = window._fbsGetSavedConfig ? window._fbsGetSavedConfig() : null;
+  if (saved) {
+    try {
+      await window._fbsDynamicInit(saved);
+      window._fbReady = true;
+      if (typeof window._onFirebaseReady === 'function') window._onFirebaseReady();
+    } catch (e) {
+      console.error('Firebase init error:', e);
+      window._fbReady = false;
+    }
+  }
+</script>
+
+<!-- ===== SIGN-IN OVERLAY ===== -->
+<div id="authOverlay">
+  <div class="auth-card">
+    <div class="lang-switcher" style="position:absolute; top:16px; left:16px;">
+      <button class="lang-opt" id="authLangEn" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-opt" id="authLangFr" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-opt" id="authLangAr" data-lang="ar" onclick="setLang('ar')">ع</button>
+    </div>
+
+    <!-- Shared recipe preview banner (shown only when ?import= is in URL) -->
+    <div id="sharedRecipeBanner" style="display:none;
+      background:var(--accent-light);border:1.5px solid var(--accent);
+      border-radius:14px;padding:14px 16px;margin-bottom:20px;cursor:pointer;
+      transition:all .2s;" onclick="_previewSharedRecipe()">
+      <div style="font-size:0.65rem;letter-spacing:.1em;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:6px;" id="sharedBannerLabel">📬 Recipe shared with you</div>
+      <div style="font-size:1rem;font-weight:700;color:var(--text);" id="sharedBannerTitle">...</div>
+      <div style="font-size:0.75rem;color:var(--text3);margin-top:4px;" id="sharedBannerMeta"></div>
+      <div style="font-size:0.72rem;color:var(--accent);margin-top:8px;font-weight:600;" id="sharedBannerCta">👁 Tap to preview →</div>
+    </div>
+
+    <div class="auth-icon">📖</div>
+    <h2 id="authTitleText">Sign in to your Recipe Book</h2>
+    <p id="authDescText">Sign in with Google to save your recipes to your account and access them from any device.</p>
+    <button class="google-btn" id="googleSignInBtn" onclick="doSignInWithGoogle()">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+      <span id="googleSignInBtnText">Sign in with Google</span>
+    </button>
+    <div class="auth-error" id="authError"></div>
+    <div class="auth-note" id="authNoteText">Your recipes are private and tied to your Google account.</div>
+  </div>
+</div>
+
+<!-- ===== ACCESS LOCK OVERLAY (shown when account is not an active subscriber) ===== -->
+<div id="accessLockOverlay">
+  <div class="lock-card">
+    <div class="lang-switcher" style="position:absolute; top:16px; left:16px;">
+      <button class="lang-opt" id="lockLangEn" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-opt" id="lockLangFr" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-opt" id="lockLangAr" data-lang="ar" onclick="setLang('ar')">ع</button>
+    </div>
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">Recipe Notebook Pro</div>
+    <div class="lock-message" id="lockMessageText">
+      عذراً، هذا الحساب غير مفعل! أنت لست مشتركاً في الخدمة.<br><br>
+      للاشتراك في الخدمة، يرجى التواصل معنا وإرسال بريدك الإلكتروني عبر الروابط التالية و بعد الدفع سيتم تفعيل حسابك على الفور ⚡
+    </div>
+    <div class="lock-contacts-label" id="lockContactsLabelText">📞 تواصل معنا للاشتراك</div>
+    <div class="lock-contacts">
+      <a class="lock-contact-btn telegram" href="http://t.me/llilmyra" target="_blank" rel="noopener" id="lockTelegramText">
+        ✈️ تيليغرام — llilmyra
+      </a>
+      <a class="lock-contact-btn instagram" href="https://www.instagram.com/llilmyra?igsh=MWc1Mm1saHVtMmhyZw==" target="_blank" rel="noopener" id="lockInstagramText">
+        📸 إنستغرام — llilmyra
+      </a>
+      <a class="lock-contact-btn gmail" href="mailto:lazragamira1@gmail.com" target="_blank" rel="noopener" id="lockEmailText">
+        📧 البريد — lazragamira1@gmail.com
+      </a>
+    </div>
+    <div class="lock-divider"></div>
+    <button class="lock-logout-btn" onclick="doSignOut()" id="lockLogoutBtnText">⬡ تسجيل الخروج أو تبديل الحساب</button>
+    <div class="lock-checking" id="lockCheckingMsg" style="display:none;">⏳ جارٍ التحقق من حالة الاشتراك...</div>
+  </div>
+</div>
+
+<!-- DECORATION BACKGROUND -->
+<div class="deco-bg" id="decoBg"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="txt-customize">✦ Customize Notebook</div>
+      <button class="btn-icon" onclick="closeSettings()">✕</button>
+    </div>
+
+    <div class="settings-label" id="lbl-colorTheme">COLOR THEME</div>
+    <div class="theme-grid">
+      <div class="theme-option active" onclick="setTheme('warm')" data-theme="warm">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#C2703A,#E8956A);"></div>
+        <span id="th-warm">Warm Cream</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('sage')" data-theme="sage">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#4A7C59,#6BA07A);"></div>
+        <span id="th-sage">Sage Garden</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('berry')" data-theme="berry">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#A03070,#C85090);"></div>
+        <span id="th-berry">Berry Sweet</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('ink')" data-theme="ink">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#2A2A40,#4A4A6A);"></div>
+        <span id="th-ink">Ink & Paper</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('saffron')" data-theme="saffron">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#B87800,#D49A20);"></div>
+        <span id="th-saffron">Saffron Spice</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('ocean')" data-theme="ocean">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#1A6A9A,#3A8EC0);"></div>
+        <span id="th-ocean">Ocean Mist</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('rose')" data-theme="rose">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#B5585A,#D87878);"></div>
+        <span id="th-rose">Rose Gold</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('forest')" data-theme="forest">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#2D5A2D,#4A8040);"></div>
+        <span id="th-forest">Forest Night</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('lavender')" data-theme="lavender">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#6A50A8,#9070D0);"></div>
+        <span id="th-lavender">Lavender Dream</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('cocoa')" data-theme="cocoa">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#6B3A1F,#9A5A35);"></div>
+        <span id="th-cocoa">Midnight Cocoa</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('mint')" data-theme="mint">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#1A8870,#2EB090);"></div>
+        <span id="th-mint">Mint Breeze</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('cyber')" data-theme="cyber">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#3355EE,#6688FF);"></div>
+        <span id="th-cyber">Cyber Blue</span>
+      </div>
+      <div class="theme-option" onclick="setTheme('volcanic')" data-theme="volcanic">
+        <div class="theme-dot" style="background:linear-gradient(135deg,#8B3020,#C05030);"></div>
+        <span id="th-volcanic">Volcanic Ash</span>
+      </div>
+    </div>
+
+    <div class="settings-label" id="lbl-decoStyle">BACKGROUND STYLE</div>
+    <div class="deco-grid">
+      <div class="deco-option active" onclick="setDeco('minimal')" data-deco="minimal">✦ <span id="dc-minimal">Minimal</span></div>
+      <div class="deco-option" onclick="setDeco('floral')" data-deco="floral">🌸 <span id="dc-floral">Floral</span></div>
+      <div class="deco-option" onclick="setDeco('rustic')" data-deco="rustic">🌿 <span id="dc-rustic">Rustic</span></div>
+      <div class="deco-option" onclick="setDeco('kawaii')" data-deco="kawaii">🎀 <span id="dc-kawaii">Kawaii</span></div>
+      <div class="deco-option" onclick="setDeco('geometric')" data-deco="geometric">◆ <span id="dc-geometric">Geometric</span></div>
+      <div class="deco-option" onclick="setDeco('waves')" data-deco="waves">〰 <span id="dc-waves">Waves</span></div>
+      <div class="deco-option" onclick="setDeco('stars')" data-deco="stars">✦ <span id="dc-stars">Starfield</span></div>
+      <div class="deco-option" onclick="setDeco('dots')" data-deco="dots">· · <span id="dc-dots">Dots Grid</span></div>
+      <div class="deco-option" onclick="setDeco('herbarium')" data-deco="herbarium">🌱 <span id="dc-herbarium">Herbarium</span></div>
+      <div class="deco-option" onclick="setDeco('tiles')" data-deco="tiles">⬡ <span id="dc-tiles">Mosaic</span></div>
+    </div>
+
+    <div class="settings-label" id="lbl-fontStyle">FONT SIZE</div>
+    <div class="font-size-row">
+      <div class="font-size-option" onclick="setFontSize('sm')" data-fontsize="sm"><span style="font-size:0.8rem">A</span><small id="fs-sm">Small</small></div>
+      <div class="font-size-option active" onclick="setFontSize('md')" data-fontsize="md"><span style="font-size:1rem">A</span><small id="fs-md">Medium</small></div>
+      <div class="font-size-option" onclick="setFontSize('lg')" data-fontsize="lg"><span style="font-size:1.2rem">A</span><small id="fs-lg">Large</small></div>
+      <div class="font-size-option" onclick="setFontSize('xl')" data-fontsize="xl"><span style="font-size:1.4rem">A</span><small id="fs-xl">X-Large</small></div>
+    </div>
+
+    <div class="settings-label" id="lbl-cornerStyle">CORNERS</div>
+    <div class="radius-grid">
+      <div class="radius-option active" onclick="setCorner('round')" data-corner="round">
+        <div class="radius-preview" style="border-radius:12px;"></div>
+        <span id="co-round">Rounded</span>
+      </div>
+      <div class="radius-option" onclick="setCorner('sharp')" data-corner="sharp">
+        <div class="radius-preview" style="border-radius:3px;"></div>
+        <span id="co-sharp">Sharp</span>
+      </div>
+      <div class="radius-option" onclick="setCorner('pill')" data-corner="pill">
+        <div class="radius-preview" style="border-radius:24px;"></div>
+        <span id="co-pill">Pill</span>
+      </div>
+    </div>
+
+    <div class="settings-label" id="lbl-mode">DISPLAY MODE</div>
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-light" onclick="setMode('light')">☀️ <span id="txt-light">Light</span></button>
+      <button class="mode-btn" id="btn-dark" onclick="setMode('dark')">🌙 <span id="txt-dark">Dark</span></button>
+    </div>
+
+    <div class="settings-label" id="lbl-language">LANGUAGE</div>
+    <div class="lang-grid">
+      <div class="lang-option active" onclick="setLang('en')" data-lang="en"><span class="lang-native">EN</span>English</div>
+      <div class="lang-option" onclick="setLang('fr')" data-lang="fr"><span class="lang-native">FR</span>Français</div>
+      <div class="lang-option" onclick="setLang('ar')" data-lang="ar"><span class="lang-native">عر</span>العربية</div>
+    </div>
+
+    <div class="settings-label" id="lbl-dataBackup">DATA BACKUP</div>
+    <div class="mode-toggle">
+      <button class="mode-btn" onclick="exportAllRecipes()"><span>📦</span> <span id="txt-exportBackup">Export Recipes</span></button>
+      <button class="mode-btn" onclick="document.getElementById('importFileInput2').click()"><span>📥</span> <span id="txt-importBackup">Import Backup</span></button>
+      <input type="file" id="importFileInput2" accept="application/json" style="display:none" onchange="importAllRecipes(event)" />
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand" onclick="showPage('home')">
+    <div class="nav-brand-icon">📖</div>
+    <div class="nav-brand-text">
+      <div id="nav-brand-title">Recipe Book</div>
+      <div class="nav-brand-sub" id="nav-brand-sub">COOK WITH LOVE</div>
+    </div>
+  </div>
+  <div class="nav-actions">
+    <button class="btn" onclick="showPage('list')" id="btn-browse">📚 <span id="txt-recipes">Recipes</span> <span id="recipeCountWrap">(<span id="recipeCount">0</span>)</span></button>
+    <button class="btn btn-primary" onclick="showPage('form')" id="btn-new">+ <span id="txt-new">New</span></button>
+    <div class="lang-switcher">
+      <button class="lang-opt" id="navLangEn" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-opt" id="navLangFr" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-opt" id="navLangAr" data-lang="ar" onclick="setLang('ar')">ع</button>
+    </div>
+    <button class="btn-icon" onclick="exportAllRecipes()" title="Backup / Export all recipes" id="btn-nav-export">📦</button>
+    <input type="file" id="importFileInput" accept="application/json" style="display:none" onchange="importAllRecipes(event)" />
+    <button class="btn-icon" onclick="document.getElementById('importFileInput').click()" title="Import backup" id="btn-nav-import">📥</button>
+    <button class="btn-icon" onclick="openSettings()" title="Settings">⚙️</button>
+    <div id="navUserBadge" class="nav-user-badge" style="display:none">
+      <div class="nav-user-avatar" id="navUserAvatar">?</div>
+      <span class="nav-user-name" id="navUserName"></span>
+      <button class="nav-signout-btn" id="navSignOutBtn" onclick="doSignOut()"><span id="txt-signOut">Sign out</span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="anime-scene">
+      <div class="anime-wrapper">
+        <!-- ✅ تم إصلاح الصورة - تستخدم رابط من الإنترنت يعمل بشكل دائم -->
+        <img src="https://i.imgur.com/S4x0hvZ.jpeg"
+             class="anime-img"
+             alt="Anime chef"
+             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23fdf6ee%22/%3E%3Ctext x=%22100%22 y=%2290%22 font-size=%2280%22 text-anchor=%22middle%22%3E👨‍🍳%3C/text%3E%3Ctext x=%22100%22 y=%22140%22 font-size=%2224%22 text-anchor=%22middle%22 fill=%22%23c2703a%22%3ECook with Love%3C/text%3E%3C/svg%3E'" />
+        <!-- food flying out of pan -->
+        <div class="food-particle p1">🍳</div>
+        <div class="food-particle p2">✨</div>
+        <div class="food-particle p3">💫</div>
+        <div class="food-particle p4">🌟</div>
+        <!-- steam puffs -->
+        <div class="steam s1"></div>
+        <div class="steam s2"></div>
+        <div class="steam s3"></div>
+        <!-- sparkles around image -->
+        <div class="sparkle sp1">✦</div>
+        <div class="sparkle sp2">✦</div>
+        <div class="sparkle sp3">✦</div>
+      </div>
+    </div>
+    <h1 id="hero-title">My Recipe Notebook</h1>
+    <p id="hero-sub">A collection of your most cherished recipes</p>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon">📚</div>
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label" id="lbl-totalRecipes">Total Recipes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🏷️</div>
+      <div class="stat-num" id="stat-cats">0</div>
+      <div class="stat-label" id="lbl-categories">Categories</div>
+    </div>
+  </div>
+  <div class="home-btns">
+    <button class="btn btn-primary" onclick="showPage('form')" style="padding:14px;">✏️ <span id="txt-writeNew">Write New Recipe</span></button>
+    <button class="btn" onclick="showPage('list')" style="padding:14px;">📖 <span id="txt-browseRecipes">Browse Recipes</span></button>
+  </div>
+</div>
+
+<!-- RECIPE LIST PAGE -->
+<div class="page" id="page-list">
+  <div class="search-bar" style="display:flex;gap:8px;align-items:center;">
+    <button class="btn-icon" onclick="showPage('home')" title="Back" id="btn-list-home" style="font-size:20px;line-height:1;">←</button>
+    <input type="text" id="searchInput" placeholder="Search recipes..." oninput="renderList()" style="flex:1;" />
+    <button class="btn-icon" id="favToggleBtn" onclick="toggleFavoritesFilter()" title="Favorites" style="font-size:20px;line-height:1;">🤍</button>
+    <button class="btn-icon" onclick="showPage('collections')" title="Collections" style="font-size:20px;line-height:1;">🗂️</button>
+  </div>
+  <div id="activeFilterBanner" style="display:none;margin:6px 2px 0;font-size:13px;color:var(--text2);align-items:center;gap:8px;">
+    <span id="activeFilterText"></span>
+    <button class="btn-icon" onclick="clearExtraFilters()" style="font-size:14px;padding:2px 8px;">✕</button>
+  </div>
+  <div class="filter-chips" id="filterChips"></div>
+  <div class="recipes-grid" id="recipesGrid"></div>
+</div>
+
+<!-- COLLECTIONS PAGE -->
+<div class="page" id="page-collections">
+  <div class="search-bar" style="display:flex;gap:8px;align-items:center;">
+    <button class="btn" onclick="showPage('list')">← Back</button>
+    <button class="btn btn-primary" onclick="createCollection()">+ New Collection</button>
+  </div>
+  <div class="recipes-grid" id="collectionsGrid" style="margin-top:16px;"></div>
+</div>
+
+<!-- ADD/EDIT RECIPE PAGE -->
+<div class="page" id="page-form">
+  <div class="form-card">
+    <div class="form-group">
+      <div class="form-section-title">🍽️ <span id="lbl-recipeTitle">RECIPE TITLE</span></div>
+      <input class="form-input" id="f-title" placeholder="What are you cooking?" />
+    </div>
+    <div class="form-group">
+      <div class="form-section-title">📷 <span id="lbl-recipePhoto">RECIPE PHOTO</span></div>
+      <div class="photo-upload" id="photoUpload" onclick="document.getElementById('photoInput').click()">
+        <span id="photoPlaceholder">📸<br><span id="txt-clickUpload">Click to upload photo</span></span>
+        <img id="photoPreview" style="display:none;" />
+      </div>
+      <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="handlePhoto(event)" />
+    </div>
+    <div class="form-row" style="margin-bottom:1.2rem;">
+      <div class="form-group">
+        <div class="form-section-title">🏷️ <span id="lbl-category">CATEGORY</span></div>
+        <select class="form-select" id="f-category">
+          <option value="Breakfast" data-key="catBreakfast">🥞 Breakfast</option>
+          <option value="Lunch" data-key="catLunch">🥗 Lunch</option>
+          <option value="Dinner" data-key="catDinner">🍽️ Dinner</option>
+          <option value="Dessert" data-key="catDessert">🍰 Dessert</option>
+          <option value="Snack" data-key="catSnack">🥨 Snack</option>
+          <option value="Soup" data-key="catSoup">🍲 Soup</option>
+          <option value="Salad" data-key="catSalad">🥗 Salad</option>
+          <option value="Bread" data-key="catBread">🍞 Bread</option>
+          <option value="Drink" data-key="catDrink">🥤 Drink</option>
+          <option value="Other" data-key="catOther">🍴 Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="form-section-title">⏱️ <span id="lbl-prepTime">PREP TIME</span></div>
+        <input class="form-input" id="f-prep" placeholder="e.g. 15 mins" />
+      </div>
+      <div class="form-group">
+        <div class="form-section-title">🔥 <span id="lbl-cookTime">COOK TIME</span></div>
+        <input class="form-input" id="f-cook" placeholder="e.g. 30 mins" />
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:1.2rem;">
+      <div class="form-group">
+        <div class="form-section-title">👥 <span id="lbl-servings">SERVINGS</span></div>
+        <input class="form-input" id="f-servings" placeholder="e.g. 4 people" />
+      </div>
+      <div class="form-group">
+        <div class="form-section-title">📊 <span id="lbl-difficulty">DIFFICULTY</span></div>
+        <select class="form-select" id="f-difficulty">
+          <option value="Easy ⭐" data-key="diffEasy">Easy ⭐</option>
+          <option value="Medium ⭐⭐" data-key="diffMedium">Medium ⭐⭐</option>
+          <option value="Hard ⭐⭐⭐" data-key="diffHard">Hard ⭐⭐⭐</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="form-section-title">🏷️ <span id="lbl-tags">TAGS</span></div>
+        <input class="form-input" id="f-tags" placeholder="vegan, quick..." />
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-section-title">✍️ <span id="lbl-description">DESCRIPTION</span></div>
+      <textarea class="form-textarea" id="f-description" rows="3" placeholder="Describe your dish briefly..."></textarea>
+    </div>
+    <div class="divider"></div>
+    <div class="form-2col">
+      <div>
+        <div class="form-section-title">🧄 <span id="lbl-ingredients">INGREDIENTS</span></div>
+        <div style="font-size:0.75rem;color:var(--text3);margin-bottom:6px;" id="hint-ingredients">One per line (e.g. "2 cups flour")</div>
+        <textarea class="form-textarea" id="f-ingredients" rows="6" placeholder="2 cups flour&#10;1 egg&#10;1 tsp vanilla..."></textarea>
+      </div>
+      <div>
+        <div class="form-section-title">🥄 <span id="lbl-method">METHOD</span></div>
+        <div style="font-size:0.75rem;color:var(--text3);margin-bottom:6px;" id="hint-method">One step per line</div>
+        <textarea class="form-textarea" id="f-method" rows="6" placeholder="Preheat oven to 180°C&#10;Mix dry ingredients&#10;Add wet ingredients..."></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-section-title">💡 <span id="lbl-tips">TIPS & NOTES</span></div>
+      <textarea class="form-textarea" id="f-tips" rows="2" placeholder="Any tips, substitutions, or personal notes..."></textarea>
+    </div>
+
+    <!-- ═══════════════ VOICE RECORDER SECTION ═══════════════ -->
+    <div class="form-group voice-recorder-section">
+      <div class="form-section-title">🎙️ <span id="lbl-voiceRecorder">VOICE NOTES</span></div>
+      <div class="voice-card">
+
+        <!-- RECORDER PANEL -->
+        <div class="voice-panel" id="voiceRecorderPanel">
+          <div class="voice-panel-title" id="lbl-recordTitle">🎤 Record Audio Note</div>
+          <div class="voice-visualizer" id="voiceVisualizer">
+            <div class="voice-bar-wrap" id="voiceBars">
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+              <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+            </div>
+          </div>
+          <div class="voice-timer" id="voiceTimer">00:00</div>
+          <div class="voice-rec-btns">
+            <button class="voice-btn voice-btn-rec" id="btnStartRec" onclick="startRecording()">⏺ <span id="lbl-startRec">Start</span></button>
+            <button class="voice-btn voice-btn-stop" id="btnStopRec" onclick="stopRecording()" style="display:none">⏹ <span id="lbl-stopRec">Stop</span></button>
+            <button class="voice-btn voice-btn-clear" id="btnClearRec" onclick="clearRecording()" style="display:none">🗑 <span id="lbl-clearRec">Clear</span></button>
+          </div>
+          <audio id="voiceAudioPlayer" controls style="display:none; width:100%; margin-top:10px; border-radius:10px;"></audio>
+          <div class="voice-status" id="voiceStatus"></div>
+        </div>
+
+        <div class="voice-divider"></div>
+
+        <!-- TRANSCRIPTION PANEL -->
+        <div class="voice-panel" id="voiceTranscribePanel">
+          <div class="voice-panel-title" id="lbl-transcribeTitle">📝 Speech to Text</div>
+          <div class="voice-lang-row">
+            <button class="voice-lang-btn active" id="vLangAr" onclick="setTranscribeLang('ar-DZ','vLangAr')">🇩🇿 عربية</button>
+            <button class="voice-lang-btn" id="vLangEn" onclick="setTranscribeLang('en-US','vLangEn')">🇺🇸 English</button>
+            <button class="voice-lang-btn" id="vLangFr" onclick="setTranscribeLang('fr-FR','vLangFr')">🇫🇷 Français</button>
+          </div>
+          <div class="voice-mic-wrap">
+            <button class="voice-mic-btn" id="btnTranscribeMic" onclick="toggleTranscribe()">
+              <span id="micIcon">🎙️</span>
+            </button>
+            <div class="voice-mic-ring" id="micRing"></div>
+          </div>
+          <div class="voice-status" id="transcribeStatus"></div>
+          <textarea class="form-textarea voice-transcript-area" id="voiceTranscript" rows="4" placeholder="Transcribed text will appear here..." style="margin-top:10px;"></textarea>
+          <div class="voice-transcript-btns">
+            <button class="voice-btn voice-btn-copy" onclick="copyTranscript()" id="btnCopyTranscript">📋 <span id="lbl-copyTranscript">Copy</span></button>
+            <button class="voice-btn voice-btn-add" onclick="appendTranscriptToNotes()" id="btnAddToNotes">➕ <span id="lbl-addToNotes">Add to Notes</span></button>
+            <button class="voice-btn voice-btn-clear" onclick="clearTranscript()" id="btnClearTranscript">🗑 <span id="lbl-clearTranscript">Clear</span></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ════════════════════════════════════════ -->
+
+    <div class="form-actions">
+      <button class="btn" onclick="cancelForm()" id="btn-cancel">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRecipe()" id="btn-save">💾 Save Recipe</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECIPE VIEW PAGE -->
+<div class="page" id="page-view">
+  <div class="view-toolbar">
+    <button class="view-back-link" onclick="goBackFromView()"><span class="arrow">←</span> <span id="txt-back">Back</span></button>
+    <div class="view-toolbar-group">
+      <button class="view-toolbar-btn" onclick="editCurrentRecipe()" id="btn-edit">✏️<span class="tooltip" id="txt-edit">Edit</span></button>
+      <button class="view-toolbar-btn" onclick="openShareModal()" id="btn-share">🔗<span class="tooltip" id="txt-share">Share</span></button>
+      <div class="view-toolbar-divider"></div>
+      <button class="view-toolbar-btn danger" onclick="deleteCurrentRecipe()" id="btn-delete">🗑️<span class="tooltip" id="txt-delete">Delete</span></button>
+    </div>
+  </div>
+  <div id="recipeViewContent"></div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="share-modal-overlay" id="confirmModal" onclick="closeConfirmModal(event)">
+  <div class="share-modal confirm-modal">
+    <div class="confirm-modal-icon">🗑️</div>
+    <div class="confirm-modal-title" id="confirmModalTitle">Delete this recipe?</div>
+    <div class="confirm-modal-text" id="confirmModalText">This action can't be undone.</div>
+    <div class="confirm-modal-actions">
+      <button class="btn-cancel" id="confirmModalCancel" onclick="closeConfirmModal(null)">Cancel</button>
+      <button class="btn-danger" id="confirmModalOk">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="share-modal-overlay" id="shareModal" onclick="closeShareModal(event)">
+  <div class="share-modal">
+    <div class="share-modal-title">
+      <span class="share-modal-title-text">🔗 <span id="txt-shareTitle">Share Recipe</span></span>
+      <button class="btn-icon share-close-btn" onclick="closeShareModal(null)" aria-label="Close">✕</button>
+    </div>
+
+    <div class="share-section-label" id="txt-shareAsText">📄 Share as Text</div>
+    <div class="share-btn-row">
+      <button class="share-action-btn" onclick="shareRecipeText('copy')">
+        <span class="share-icon">📋</span> <span id="txt-shareCopy">Copy Text</span>
+      </button>
+      <button class="share-action-btn" onclick="shareRecipeText('whatsapp')">
+        <span class="share-icon">💬</span> <span id="txt-shareWhatsapp">WhatsApp</span>
+      </button>
+      <button class="share-action-btn" onclick="shareRecipeText('email')">
+        <span class="share-icon">✉️</span> <span id="txt-shareEmail">Email</span>
+      </button>
+      <button class="share-action-btn" id="btnShareNative" onclick="shareRecipeText('native')">
+        <span class="share-icon">📤</span> <span id="txt-shareNative">More...</span>
+      </button>
+    </div>
+
+    <div class="share-section-label" id="txt-shareAsLink">🔗 Share Link (for app users)</div>
+    <div class="share-btn-row">
+      <button class="share-action-btn" onclick="shareRecipeLink('copy')">
+        <span class="share-icon">🔗</span> <span id="txt-shareLinkCopy">Copy Link</span>
+      </button>
+      <button class="share-action-btn" onclick="shareRecipeLink('whatsapp')">
+        <span class="share-icon">💬</span> <span id="txt-shareLinkWhatsapp">Link via WhatsApp</span>
+      </button>
+      <button class="share-action-btn" onclick="shareRecipeLink('email')">
+        <span class="share-icon">✉️</span> <span id="txt-shareLinkEmail">Link via Email</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let recipes = JSON.parse(localStorage.getItem('recipes') || '[]');
+let currentTheme = localStorage.getItem('theme') || 'warm';
+let currentMode = localStorage.getItem('mode') || 'light';
+let currentLang = localStorage.getItem('lang') || 'en';
+let currentDeco = localStorage.getItem('deco') || 'minimal';
+let currentFontSize = localStorage.getItem('fontsize') || 'md';
+let currentCorner = localStorage.getItem('corner') || 'round';
+let currentFilter = 'All';
+let viewingId = null;
+let editingId = null;
+let photoData = null;
+let collections = JSON.parse(localStorage.getItem('collections') || '[]');
+let currentTagFilter = null;
+let showFavoritesOnly = false;
+let currentCollectionFilter = null;
+let viewReturnPage = 'list';
+
+// ══════════════════════════════════════════════
+// TRANSLATIONS
+// ══════════════════════════════════════════════
+const T = {
+  en: {
+    brandTitle:'Recipe Book',brandSub:'COOK WITH LOVE',
+    heroTitle:'My Recipe Notebook',heroSub:'A collection of your most cherished recipes',
+    totalRecipes:'Total Recipes',categories:'Categories',
+    writeNew:'Write New Recipe',browseRecipes:'Browse Recipes',
+    searchPlaceholder:'Search recipes...',all:'All',
+    noRecipes:'No recipes yet',noRecipesHint:'Start by adding your first recipe!',
+    recipeTitle:'RECIPE TITLE',recipePhoto:'RECIPE PHOTO',clickUpload:'Click to upload photo',
+    category:'CATEGORY',prepTime:'PREP TIME',cookTime:'COOK TIME',
+    servings:'SERVINGS',difficulty:'DIFFICULTY',tags:'TAGS',
+    description:'DESCRIPTION',ingredients:'INGREDIENTS',method:'METHOD',
+    tips:'TIPS & NOTES',cancel:'Cancel',saveRecipe:'💾 Save Recipe',
+    hintIngredients:'One per line (e.g. "2 cups flour")',hintMethod:'One step per line',
+    back:'Back',edit:'Edit',delete:'Delete',deleteConfirm:'Delete this recipe?',
+    recipeSaved:'✓ Recipe saved!',recipeDeleted:'✓ Recipe deleted',
+    recipes:'Recipes',new:'New',
+    customize:'✦ Customize Notebook',colorTheme:'COLOR THEME',
+    decoStyle:'BACKGROUND STYLE',mode:'DISPLAY MODE',language:'LANGUAGE',
+    dataBackup:'DATA BACKUP', exportBackup:'Export Recipes', importBackup:'Import Backup',
+    fontStyle:'FONT SIZE',cornerStyle:'CORNERS',
+    fsSm:'Small',fsMd:'Medium',fsLg:'Large',fsXl:'X-Large',
+    light:'Light',dark:'Dark',
+    thWarm:'Warm Cream',thSage:'Sage Garden',thBerry:'Berry Sweet',thInk:'Ink & Paper',thSaffron:'Saffron Spice',
+    thOcean:'Ocean Mist',thRose:'Rose Gold',thForest:'Forest Night',thLavender:'Lavender Dream',
+    thCocoa:'Midnight Cocoa',thMint:'Mint Breeze',thCyber:'Cyber Blue',thVolcanic:'Volcanic Ash',
+    dcMinimal:'Minimal',dcFloral:'Floral',dcRustic:'Rustic',dcKawaii:'Kawaii',dcGeometric:'Geometric',
+    dcWaves:'Waves',dcStars:'Starfield',dcDots:'Dots Grid',dcHerbarium:'Herbarium',dcTiles:'Mosaic',
+    coRound:'Rounded',coSharp:'Sharp',coPill:'Pill',
+    authTitle:'Sign in to your Recipe Book',
+    authDesc:'Sign in with Google to save your recipes to your account and access them from any device.',
+    googleSignIn:'Sign in with Google',
+    authNote:'Your recipes are private and tied to your Google account.',
+    lockMessage:'Sorry, this account is not activated! You are not subscribed to the service.<br><br>To subscribe, please contact us and send your email through the links below. Once payment is confirmed, your account will be activated instantly ⚡',
+    lockContactsLabel:'📞 Contact us to subscribe',
+    lockTelegram:'✈️ Telegram — llilmyra',
+    lockInstagram:'📸 Instagram — llilmyra',
+    lockEmail:'📧 Email — lazragamira1@gmail.com',
+    lockLogout:'⬡ Sign out or switch account',
+    signOut:'Sign out', signOutConfirm:'Sign out of your account?',
+    lockChecking:'⏳ Checking subscription status...',
+    phTitle:'What are you cooking?',phPrep:'e.g. 15 mins',phCook:'e.g. 30 mins',
+    phServings:'e.g. 4 people',phTags:'vegan, quick...',
+    phDescription:'Describe your dish briefly...',
+    phIngredients:'2 cups flour\n1 egg\n1 tsp vanilla...',
+    phMethod:'Preheat oven to 180°C\nMix dry ingredients\nAdd wet ingredients...',
+    phTips:'Any tips, substitutions, or personal notes...',
+    catBreakfast:'Breakfast',catLunch:'Lunch',catDinner:'Dinner',catDessert:'Dessert',
+    catSnack:'Snack',catSoup:'Soup',catSalad:'Salad',catBread:'Bread',catDrink:'Drink',catOther:'Other',
+    diffEasy:'Easy',diffMedium:'Medium',diffHard:'Hard',
+    voiceRecorder:'VOICE NOTES',recordTitle:'🎤 Record Audio Note',
+    startRec:'Start',stopRec:'Stop',clearRec:'Clear',
+    transcribeTitle:'📝 Speech to Text',
+    copyTranscript:'Copy',addToNotes:'Add to Notes',clearTranscript:'Clear',
+    share:'Share',shareTitle:'Share Recipe',shareAsText:'📄 Share as Text',shareAsLink:'🔗 Share Link (for app users)',
+    shareCopy:'Copy Text',shareWhatsapp:'WhatsApp',shareNative:'More...',
+    shareEmail:'Email',shareLinkEmail:'Link via Email',shareEmailSubject:'Recipe: ',
+    shareLinkCopy:'Copy Link',shareLinkWhatsapp:'Link via WhatsApp',
+    importConfirm:'Add this recipe to your notebook?',
+    sharedBannerLabel:'📬 Recipe shared with you',sharedBannerCta:'👁 Tap to preview →',
+  },
+  fr: {
+    brandTitle:'Livre de Recettes',brandSub:'CUISINER AVEC AMOUR',
+    heroTitle:'Mon Cahier de Recettes',heroSub:'Une collection de vos recettes les plus chéries',
+    totalRecipes:'Total Recettes',categories:'Catégories',
+    writeNew:'Nouvelle Recette',browseRecipes:'Parcourir',
+    searchPlaceholder:'Rechercher...',all:'Tout',
+    noRecipes:'Pas encore de recettes',noRecipesHint:'Commencez par ajouter votre première recette!',
+    recipeTitle:'TITRE',recipePhoto:'PHOTO',clickUpload:'Cliquer pour ajouter une photo',
+    category:'CATÉGORIE',prepTime:'PRÉPARATION',cookTime:'CUISSON',
+    servings:'PORTIONS',difficulty:'DIFFICULTÉ',tags:'ÉTIQUETTES',
+    description:'DESCRIPTION',ingredients:'INGRÉDIENTS',method:'MÉTHODE',
+    tips:'CONSEILS',cancel:'Annuler',saveRecipe:'💾 Sauvegarder',
+    hintIngredients:'Un par ligne',hintMethod:'Une étape par ligne',
+    back:'Retour',edit:'Modifier',delete:'Supprimer',deleteConfirm:'Supprimer cette recette?',
+    recipeSaved:'✓ Recette sauvegardée!',recipeDeleted:'✓ Recette supprimée',
+    recipes:'Recettes',new:'Nouveau',
+    customize:'✦ Personnaliser',colorTheme:'THÈME DE COULEUR',
+    decoStyle:'STYLE DE FOND',mode:'MODE AFFICHAGE',language:'LANGUE',
+    dataBackup:'SAUVEGARDE DES DONNÉES', exportBackup:'Exporter les recettes', importBackup:'Importer une sauvegarde',
+    fontStyle:'TYPOGRAPHIE',cornerStyle:'COINS',
+    light:'Clair',dark:'Sombre',
+    thWarm:'Crème Chaude',thSage:'Jardin Sauge',thBerry:'Fruits Rouges',thInk:'Encre & Papier',thSaffron:'Épice Safran',
+    thOcean:'Brume Océan',thRose:'Or Rose',thForest:'Forêt Nuit',thLavender:'Rêve Lavande',
+    thCocoa:'Cacao Nuit',thMint:'Brise Menthe',thCyber:'Bleu Cyber',thVolcanic:'Cendre Volcanique',
+    dcMinimal:'Minimal',dcFloral:'Floral',dcRustic:'Rustique',dcKawaii:'Kawaii',dcGeometric:'Géométrique',
+    dcWaves:'Vagues',dcStars:'Étoiles',dcDots:'Grille Points',dcHerbarium:'Herbier',dcTiles:'Mosaïque',
+    coRound:'Arrondi',coSharp:'Carré',coPill:'Pilule',
+    authTitle:"Connectez-vous à votre livre de recettes",
+    authDesc:"Connectez-vous avec Google pour enregistrer vos recettes sur votre compte et y accéder depuis n'importe quel appareil.",
+    googleSignIn:'Se connecter avec Google',
+    authNote:'Vos recettes sont privées et liées à votre compte Google.',
+    lockMessage:"Désolé, ce compte n'est pas activé ! Vous n'êtes pas abonné au service.<br><br>Pour vous abonner, veuillez nous contacter et envoyer votre e-mail via les liens ci-dessous. Une fois le paiement confirmé, votre compte sera activé instantanément ⚡",
+    lockContactsLabel:'📞 Contactez-nous pour vous abonner',
+    lockTelegram:'✈️ Telegram — llilmyra',
+    lockInstagram:'📸 Instagram — llilmyra',
+    lockEmail:'📧 E-mail — lazragamira1@gmail.com',
+    lockLogout:'⬡ Déconnexion ou changer de compte',
+    signOut:'Déconnexion', signOutConfirm:'Se déconnecter de votre compte ?',
+    lockChecking:"⏳ Vérification de l'abonnement...",
+    phTitle:'Que cuisinez-vous ?',phPrep:'ex. 15 min',phCook:'ex. 30 min',
+    phServings:'ex. 4 personnes',phTags:'végétarien, rapide...',
+    phDescription:'Décrivez brièvement votre plat...',
+    phIngredients:'2 tasses de farine\n1 œuf\n1 c. à café de vanille...',
+    phMethod:'Préchauffer le four à 180°C\nMélanger les ingrédients secs\nAjouter les ingrédients humides...',
+    phTips:'Astuces, substitutions ou notes personnelles...',
+    catBreakfast:'Petit-déjeuner',catLunch:'Déjeuner',catDinner:'Dîner',catDessert:'Dessert',
+    catSnack:'Collation',catSoup:'Soupe',catSalad:'Salade',catBread:'Pain',catDrink:'Boisson',catOther:'Autre',
+    diffEasy:'Facile',diffMedium:'Moyen',diffHard:'Difficile',
+    voiceRecorder:'NOTES VOCALES',recordTitle:'🎤 Enregistrer une note audio',
+    startRec:'Démarrer',stopRec:'Arrêter',clearRec:'Effacer',
+    transcribeTitle:'📝 Voix vers texte',
+    copyTranscript:'Copier',addToNotes:'Ajouter aux notes',clearTranscript:'Effacer',
+    share:'Partager',shareTitle:'Partager la Recette',shareAsText:'📄 Partager en texte',shareAsLink:'🔗 Lien (pour utilisateurs)',
+    shareCopy:'Copier le texte',shareWhatsapp:'WhatsApp',shareNative:'Autres...',
+    shareEmail:'E-mail',shareLinkEmail:'Lien par e-mail',shareEmailSubject:'Recette : ',
+    shareLinkCopy:'Copier le lien',shareLinkWhatsapp:'Lien via WhatsApp',
+    importConfirm:'Ajouter cette recette à votre carnet?',
+    sharedBannerLabel:'📬 Recette partagée avec vous',sharedBannerCta:'👁 Toucher pour prévisualiser →',
+  },
+  ar: {
+    brandTitle:'كتاب الوصفات',brandSub:'الطبخ بمحبة',
+    heroTitle:'دفتر وصفاتي',heroSub:'مجموعة من أعز وصفاتك',
+    totalRecipes:'إجمالي الوصفات',categories:'الفئات',
+    writeNew:'وصفة جديدة',browseRecipes:'تصفح الوصفات',
+    searchPlaceholder:'ابحث عن وصفة...',all:'الكل',
+    noRecipes:'لا توجد وصفات بعد',noRecipesHint:'ابدأ بإضافة وصفتك الأولى!',
+    recipeTitle:'عنوان الوصفة',recipePhoto:'صورة الوصفة',clickUpload:'اضغط لرفع صورة',
+    category:'الفئة',prepTime:'وقت التحضير',cookTime:'وقت الطبخ',
+    servings:'عدد الأشخاص',difficulty:'الصعوبة',tags:'الوسوم',
+    description:'الوصف',ingredients:'المكونات',method:'طريقة التحضير',
+    tips:'نصائح وملاحظات',cancel:'إلغاء',saveRecipe:'💾 حفظ الوصفة',
+    hintIngredients:'مكون في كل سطر',hintMethod:'خطوة في كل سطر',
+    back:'رجوع',edit:'تعديل',delete:'حذف',deleteConfirm:'هل تريد حذف هذه الوصفة؟',
+    recipeSaved:'✓ تم حفظ الوصفة!',recipeDeleted:'✓ تم حذف الوصفة',
+    recipes:'الوصفات',new:'جديد',
+    customize:'✦ تخصيص الدفتر',colorTheme:'لون السمة',
+    decoStyle:'نمط الخلفية',mode:'وضع العرض',language:'اللغة',
+    dataBackup:'النسخ الاحتياطي', exportBackup:'تصدير الوصفات', importBackup:'استيراد نسخة احتياطية',
+    fontStyle:'حجم الخط',cornerStyle:'الزوايا',
+    fsSm:'صغير',fsMd:'متوسط',fsLg:'كبير',fsXl:'كبير جداً',
+    light:'فاتح',dark:'داكن',
+    thWarm:'الكريم الدافئ',thSage:'حديقة المريمية',thBerry:'التوت الحلو',thInk:'الحبر والورق',thSaffron:'توابل الزعفران',
+    thOcean:'ضباب المحيط',thRose:'الذهب الوردي',thForest:'ليلة الغابة',thLavender:'حلم اللافندر',
+    thCocoa:'كاكاو منتصف الليل',thMint:'نسيم النعناع',thCyber:'الأزرق الإلكتروني',thVolcanic:'رماد بركاني',
+    dcMinimal:'بسيط',dcFloral:'زهور',dcRustic:'ريفي',dcKawaii:'كاواي',dcGeometric:'هندسي',
+    dcWaves:'أمواج',dcStars:'نجوم',dcDots:'نقاط',dcHerbarium:'عشبيات',dcTiles:'فسيفساء',
+    coRound:'مدور',coSharp:'حاد',coPill:'بيضاوي',
+    authTitle:'سجّل الدخول إلى دفتر وصفاتك',
+    authDesc:'سجّل الدخول عبر جوجل لحفظ وصفاتك في حسابك والوصول إليها من أي جهاز.',
+    googleSignIn:'تسجيل الدخول عبر جوجل',
+    authNote:'وصفاتك خاصة ومرتبطة بحسابك في جوجل.',
+    lockMessage:'عذراً، هذا الحساب غير مفعل! أنت لست مشتركاً في الخدمة.<br><br>للاشتراك في الخدمة، يرجى التواصل معنا وإرسال بريدك الإلكتروني عبر الروابط التالية، وبعد تأكيد الدفع سيتم تفعيل حسابك على الفور ⚡',
+    lockContactsLabel:'📞 تواصل معنا للاشتراك',
+    lockTelegram:'✈️ تيليغرام — llilmyra',
+    lockInstagram:'📸 إنستغرام — llilmyra',
+    lockEmail:'📧 البريد — lazragamira1@gmail.com',
+    lockLogout:'⬡ تسجيل الخروج أو تبديل الحساب',
+    signOut:'خروج', signOutConfirm:'هل تريد تسجيل الخروج من حسابك؟',
+    lockChecking:'⏳ جارٍ التحقق من حالة الاشتراك...',
+    phTitle:'ما الذي تطبخه؟',phPrep:'مثلاً: 15 دقيقة',phCook:'مثلاً: 30 دقيقة',
+    phServings:'مثلاً: 4 أشخاص',phTags:'نباتي، سريع...',
+    phDescription:'صف طبقك باختصار...',
+    phIngredients:'كوبان دقيق\nبيضة واحدة\nملعقة صغيرة فانيليا...',
+    phMethod:'سخّن الفرن إلى 180°م\nاخلط المكونات الجافة\nأضف المكونات السائلة...',
+    phTips:'أي نصائح أو بدائل أو ملاحظات شخصية...',
+    catBreakfast:'فطور',catLunch:'غداء',catDinner:'عشاء',catDessert:'حلويات',
+    catSnack:'وجبة خفيفة',catSoup:'شوربة',catSalad:'سلطة',catBread:'خبز',catDrink:'مشروب',catOther:'أخرى',
+    diffEasy:'سهل',diffMedium:'متوسط',diffHard:'صعب',
+    voiceRecorder:'ملاحظات صوتية',recordTitle:'🎤 تسجيل ملاحظة صوتية',
+    startRec:'ابدأ',stopRec:'أوقف',clearRec:'مسح',
+    transcribeTitle:'📝 الكلام إلى نص',
+    copyTranscript:'نسخ',addToNotes:'أضف للملاحظات',clearTranscript:'مسح',
+    share:'مشاركة',shareTitle:'مشاركة الوصفة',shareAsText:'📄 مشاركة كنص',shareAsLink:'🔗 مشاركة رابط (لمستخدمي التطبيق)',
+    shareCopy:'نسخ النص',shareWhatsapp:'واتساب',shareNative:'مزيد...',
+    shareEmail:'البريد الإلكتروني',shareLinkEmail:'رابط عبر البريد',shareEmailSubject:'وصفة: ',
+    shareLinkCopy:'نسخ الرابط',shareLinkWhatsapp:'رابط عبر واتساب',
+    importConfirm:'إضافة هذه الوصفة إلى دفترك؟',
+    sharedBannerLabel:'📬 وصفة مشاركة معك',sharedBannerCta:'👁 اضغط للمعاينة ←',
+  },
+};
+
+// ══════════════════════════════════════════════
+// DECORATION PATTERNS
+// ══════════════════════════════════════════════
+function renderDeco(style) {
+  const el = document.getElementById('decoBg');
+  // clear previous
+  el.innerHTML = '';
+  el.style.cssText = '';
+
+  const css = getComputedStyle(document.body);
+  const accent = css.getPropertyValue('--accent').trim();
+
+  const configs = {
+    minimal: () => {
+      el.style.background = 'none';
+    },
+    floral: () => {
+      const emojis = ['🌸','🌺','🌼','🌹','🌷','🌻','💐','🌸'];
+      let html = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">';
+      for (let i = 0; i < 28; i++) {
+        const x = (i * 37) % 100;
+        const y = (i * 29 + 15) % 100;
+        const size = 14 + (i % 4) * 5;
+        const rot = (i * 43) % 360;
+        html += `<text x="${x}%" y="${y}%" font-size="${size}" opacity="0.25" transform="rotate(${rot}, ${x * window.innerWidth / 100}, ${y * window.innerHeight / 100})">${emojis[i % emojis.length]}</text>`;
+      }
+      html += '</svg>';
+      el.innerHTML = html;
+    },
+    rustic: () => {
+      const emojis = ['🌿','🍃','🌾','🍀','🌱','🪴','🍂','🌿'];
+      let html = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">';
+      for (let i = 0; i < 24; i++) {
+        const x = (i * 41 + 5) % 96;
+        const y = (i * 33 + 8) % 96;
+        const size = 16 + (i % 3) * 6;
+        html += `<text x="${x}%" y="${y}%" font-size="${size}" opacity="0.2">${emojis[i % emojis.length]}</text>`;
+      }
+      html += '</svg>';
+      el.innerHTML = html;
+    },
+    kawaii: () => {
+      const emojis = ['⭐','💫','✨','🌟','💕','🎀','🍬','🎈'];
+      let html = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">';
+      for (let i = 0; i < 30; i++) {
+        const x = (i * 31 + 3) % 97;
+        const y = (i * 27 + 6) % 97;
+        const size = 10 + (i % 5) * 4;
+        html += `<text x="${x}%" y="${y}%" font-size="${size}" opacity="0.28">${emojis[i % emojis.length]}</text>`;
+      }
+      html += '</svg>';
+      el.innerHTML = html;
+    },
+    geometric: () => {
+      el.innerHTML = `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="geo" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+            <polygon points="30,4 56,18 56,42 30,56 4,42 4,18" fill="none" stroke="${accent}" stroke-width="0.8" opacity="0.12"/>
+            <circle cx="30" cy="30" r="4" fill="${accent}" opacity="0.06"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#geo)"/>
+      </svg>`;
+    },
+    waves: () => {
+      el.innerHTML = `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="waves" x="0" y="0" width="120" height="60" patternUnits="userSpaceOnUse">
+            <path d="M0,30 Q30,10 60,30 Q90,50 120,30" fill="none" stroke="${accent}" stroke-width="1" opacity="0.1"/>
+            <path d="M0,50 Q30,30 60,50 Q90,70 120,50" fill="none" stroke="${accent}" stroke-width="0.7" opacity="0.07"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#waves)"/>
+      </svg>`;
+    },
+    stars: () => {
+      let html = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">';
+      const counts = [40, 20, 10];
+      const sizes = [1, 1.8, 2.8];
+      const opacities = [0.15, 0.2, 0.25];
+      for (let g = 0; g < 3; g++) {
+        for (let i = 0; i < counts[g]; i++) {
+          const x = ((i * 73 + g * 29) % 97) + 1;
+          const y = ((i * 61 + g * 41) % 97) + 1;
+          html += `<circle cx="${x}%" cy="${y}%" r="${sizes[g]}" fill="${accent}" opacity="${opacities[g]}"/>`;
+        }
+      }
+      // constellation lines
+      for (let i = 0; i < 8; i++) {
+        const x1 = ((i * 73) % 80) + 5; const y1 = ((i * 61) % 80) + 5;
+        const x2 = ((i * 73 + 15) % 80) + 5; const y2 = ((i * 61 + 12) % 80) + 5;
+        html += `<line x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%" stroke="${accent}" stroke-width="0.4" opacity="0.1"/>`;
+      }
+      html += '</svg>';
+      el.innerHTML = html;
+    },
+    dots: () => {
+      el.innerHTML = `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="12" cy="12" r="1.2" fill="${accent}" opacity="0.12"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots)"/>
+      </svg>`;
+    },
+    herbarium: () => {
+      const emojis = ['🌿','🌱','🍃','🌾','🪴','🌵','🍀','🌿','🌱'];
+      let html = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">';
+      // scattered large botanical elements
+      for (let i = 0; i < 12; i++) {
+        const x = (i * 53 + 8) % 92;
+        const y = (i * 37 + 12) % 92;
+        const size = 22 + (i % 4) * 8;
+        const rot = (i * 55) % 360;
+        html += `<text x="${x}%" y="${y}%" font-size="${size}" opacity="0.13" transform="rotate(${rot}, ${x * window.innerWidth / 100}, ${y * window.innerHeight / 100})">${emojis[i % emojis.length]}</text>`;
+      }
+      html += '</svg>';
+      el.innerHTML = html;
+    },
+    tiles: () => {
+      el.innerHTML = `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="tiles" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+            <rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="${accent}" stroke-width="0.7" opacity="0.1"/>
+            <rect x="26" y="2" width="20" height="20" rx="3" fill="none" stroke="${accent}" stroke-width="0.7" opacity="0.06"/>
+            <rect x="2" y="26" width="20" height="20" rx="3" fill="none" stroke="${accent}" stroke-width="0.7" opacity="0.06"/>
+            <rect x="26" y="26" width="20" height="20" rx="3" fill="none" stroke="${accent}" stroke-width="0.7" opacity="0.1"/>
+            <circle cx="24" cy="24" r="2" fill="${accent}" opacity="0.08"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#tiles)"/>
+      </svg>`;
+    },
+  };
+
+  (configs[style] || configs.minimal)();
+}
+
+// ══════════════════════════════════════════════
+// APPLY ALL SETTINGS
+// ══════════════════════════════════════════════
+function applyAll() {
+  document.body.setAttribute('data-theme', currentTheme);
+  document.body.setAttribute('data-mode', currentMode);
+  document.body.setAttribute('data-lang', currentLang);
+  document.body.setAttribute('data-fontsize', currentFontSize);
+  document.body.setAttribute('data-corner', currentCorner);
+  applyCornerVars(currentCorner);
+  applyFontSizeVars(currentFontSize);
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+  requestAnimationFrame(() => renderDeco(currentDeco));
+  updateTranslations();
+  updateStats();
+}
+
+function applyFontSizeVars(s) {
+  const root = document.documentElement;
+  const map = {
+    sm: { base: '0.82rem', title: '2.2rem', card: '0.88rem', view: '1.5rem' },
+    md: { base: '0.9rem',  title: '2.6rem', card: '0.95rem', view: '1.7rem' },
+    lg: { base: '1.05rem', title: '3rem',   card: '1.1rem',  view: '2rem'   },
+    xl: { base: '1.2rem',  title: '3.5rem', card: '1.25rem', view: '2.3rem' },
+  };
+  const v = map[s] || map.md;
+  root.style.setProperty('--fs-base',       v.base);
+  root.style.setProperty('--fs-title',      v.title);
+  root.style.setProperty('--fs-card-title', v.card);
+  root.style.setProperty('--fs-view-title', v.view);
+}
+
+function applyCornerVars(c) {
+  const root = document.documentElement;
+  const map = {
+    sharp: { r: '5px',  rs: '3px'  },
+    round: { r: '18px', rs: '10px' },
+    pill:  { r: '32px', rs: '18px' },
+  };
+  const v = map[c] || map.round;
+  root.style.setProperty('--radius',    v.r);
+  root.style.setProperty('--radius-sm', v.rs);
+}
+
+function updateTranslations() {
+  const t = T[currentLang] || T.en;
+  const ids = {
+    'nav-brand-title': t.brandTitle, 'nav-brand-sub': t.brandSub,
+    'hero-title': t.heroTitle, 'hero-sub': t.heroSub,
+    'lbl-totalRecipes': t.totalRecipes, 'lbl-categories': t.categories,
+    'txt-writeNew': t.writeNew, 'txt-browseRecipes': t.browseRecipes,
+    'txt-recipes': t.recipes, 'txt-new': t.new,
+    'lbl-recipeTitle': t.recipeTitle, 'lbl-recipePhoto': t.recipePhoto,
+    'txt-clickUpload': t.clickUpload,
+    'lbl-category': t.category, 'lbl-prepTime': t.prepTime, 'lbl-cookTime': t.cookTime,
+    'lbl-servings': t.servings, 'lbl-difficulty': t.difficulty, 'lbl-tags': t.tags,
+    'lbl-description': t.description, 'lbl-ingredients': t.ingredients,
+    'lbl-method': t.method, 'lbl-tips': t.tips,
+    'hint-ingredients': t.hintIngredients, 'hint-method': t.hintMethod,
+    'txt-back': t.back, 'txt-edit': t.edit, 'txt-delete': t.delete, 'txt-share': t.share,
+    'txt-signOut': t.signOut,
+    'txt-shareTitle': t.shareTitle, 'txt-shareAsText': t.shareAsText, 'txt-shareAsLink': t.shareAsLink,
+    'txt-shareCopy': t.shareCopy, 'txt-shareWhatsapp': t.shareWhatsapp, 'txt-shareNative': t.shareNative,
+    'txt-shareEmail': t.shareEmail, 'txt-shareLinkEmail': t.shareLinkEmail,
+    'txt-shareLinkCopy': t.shareLinkCopy, 'txt-shareLinkWhatsapp': t.shareLinkWhatsapp,
+    'txt-customize': t.customize, 'lbl-colorTheme': t.colorTheme,
+    'lbl-decoStyle': t.decoStyle, 'lbl-mode': t.mode, 'lbl-language': t.language,
+    'lbl-dataBackup': t.dataBackup, 'txt-exportBackup': t.exportBackup, 'txt-importBackup': t.importBackup,
+    'lbl-fontStyle': t.fontStyle, 'lbl-cornerStyle': t.cornerStyle,
+    'fs-sm': t.fsSm||'Small', 'fs-md': t.fsMd||'Medium', 'fs-lg': t.fsLg||'Large', 'fs-xl': t.fsXl||'X-Large',
+    'txt-light': t.light, 'txt-dark': t.dark,
+    'th-warm': t.thWarm, 'th-sage': t.thSage, 'th-berry': t.thBerry,
+    'th-ink': t.thInk, 'th-saffron': t.thSaffron,
+    'th-ocean': t.thOcean, 'th-rose': t.thRose, 'th-forest': t.thForest,
+    'th-lavender': t.thLavender, 'th-cocoa': t.thCocoa,
+    'th-mint': t.thMint, 'th-cyber': t.thCyber, 'th-volcanic': t.thVolcanic,
+    'dc-minimal': t.dcMinimal, 'dc-floral': t.dcFloral, 'dc-rustic': t.dcRustic,
+    'dc-kawaii': t.dcKawaii, 'dc-geometric': t.dcGeometric,
+    'dc-waves': t.dcWaves, 'dc-stars': t.dcStars, 'dc-dots': t.dcDots,
+    'dc-herbarium': t.dcHerbarium, 'dc-tiles': t.dcTiles,
+    'co-round': t.coRound, 'co-sharp': t.coSharp, 'co-pill': t.coPill,
+    'sharedBannerLabel': t.sharedBannerLabel, 'sharedBannerCta': t.sharedBannerCta,
+  };
+  for (const [id, val] of Object.entries(ids)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+  const si = document.getElementById('searchInput');
+  if (si) si.placeholder = t.searchPlaceholder;
+  document.getElementById('btn-cancel').textContent = t.cancel;
+  document.getElementById('btn-save').innerHTML = t.saveRecipe;
+
+  // ---- Voice recorder translations ----
+  const voiceIds = {
+    'lbl-voiceRecorder': t.voiceRecorder, 'lbl-recordTitle': t.recordTitle,
+    'lbl-startRec': t.startRec, 'lbl-stopRec': t.stopRec, 'lbl-clearRec': t.clearRec,
+    'lbl-transcribeTitle': t.transcribeTitle,
+    'lbl-copyTranscript': t.copyTranscript, 'lbl-addToNotes': t.addToNotes, 'lbl-clearTranscript': t.clearTranscript,
+  };
+  for (const [id, val] of Object.entries(voiceIds)) {
+    const el = document.getElementById(id);
+    if (el && val) el.textContent = val;
+  }
+  // Mirror RTL on voice transcript
+  const vta = document.getElementById('voiceTranscript');
+  if (vta) vta.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+  document.body.style.fontFamily = currentLang === 'ar' ? 'var(--font-arabic)' : 'var(--font-body)';
+
+  // ---- Sign-in overlay ----
+  const authTitleEl = document.getElementById('authTitleText');
+  if (authTitleEl) authTitleEl.textContent = t.authTitle;
+  const authDescEl = document.getElementById('authDescText');
+  if (authDescEl) authDescEl.textContent = t.authDesc;
+  const googleBtnEl = document.getElementById('googleSignInBtnText');
+  if (googleBtnEl) googleBtnEl.textContent = t.googleSignIn;
+  const authNoteEl = document.getElementById('authNoteText');
+  if (authNoteEl) authNoteEl.textContent = t.authNote;
+
+  // ---- Access-lock overlay (account not activated) ----
+  const lockMessageEl = document.getElementById('lockMessageText');
+  if (lockMessageEl) lockMessageEl.innerHTML = t.lockMessage;
+  const lockContactsLabelEl = document.getElementById('lockContactsLabelText');
+  if (lockContactsLabelEl) lockContactsLabelEl.textContent = t.lockContactsLabel;
+  const lockTelegramEl = document.getElementById('lockTelegramText');
+  if (lockTelegramEl) lockTelegramEl.textContent = t.lockTelegram;
+  const lockInstagramEl = document.getElementById('lockInstagramText');
+  if (lockInstagramEl) lockInstagramEl.textContent = t.lockInstagram;
+  const lockEmailEl = document.getElementById('lockEmailText');
+  if (lockEmailEl) lockEmailEl.textContent = t.lockEmail;
+  const lockLogoutEl = document.getElementById('lockLogoutBtnText');
+  if (lockLogoutEl) lockLogoutEl.textContent = t.lockLogout;
+  const lockCheckingEl = document.getElementById('lockCheckingMsg');
+  if (lockCheckingEl) lockCheckingEl.textContent = t.lockChecking;
+
+  // ---- Add/Edit Recipe modal placeholders ----
+  const ph = {
+    'f-title': t.phTitle, 'f-prep': t.phPrep, 'f-cook': t.phCook,
+    'f-servings': t.phServings, 'f-tags': t.phTags,
+    'f-description': t.phDescription, 'f-ingredients': t.phIngredients,
+    'f-method': t.phMethod, 'f-tips': t.phTips,
+  };
+  for (const [id, val] of Object.entries(ph)) {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = val;
+  }
+
+  // ---- Quick language switchers (nav / auth / lock screens) ----
+  document.querySelectorAll('.lang-opt').forEach(el => el.classList.toggle('active', el.dataset.lang === currentLang));
+
+  // ---- Category & difficulty select options ----
+  document.querySelectorAll('#f-category option[data-key]').forEach(opt => {
+    const emoji = CATEGORY_EMOJI[opt.value] || '';
+    opt.textContent = `${emoji} ${t[opt.dataset.key] || opt.value}`.trim();
+  });
+  document.querySelectorAll('#f-difficulty option[data-key]').forEach(opt => {
+    const base = opt.value.split(' ')[0];
+    const stars = DIFFICULTY_STARS[base] || '';
+    opt.textContent = `${t[opt.dataset.key] || base} ${stars}`.trim();
+  });
+}
+
+function updateStats() {
+  document.getElementById('recipeCount').textContent = recipes.length;
+  document.getElementById('stat-total').textContent = recipes.length;
+  document.getElementById('stat-cats').textContent = new Set(recipes.map(r => r.category)).size;
+}
+
+// ══════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════
+function openSettings() {
+  document.getElementById('settingsModal').classList.add('show');
+  document.querySelectorAll('.theme-option').forEach(el => el.classList.toggle('active', el.dataset.theme === currentTheme));
+  document.querySelectorAll('.deco-option').forEach(el => el.classList.toggle('active', el.dataset.deco === currentDeco));
+  document.querySelectorAll('.font-size-option').forEach(el => el.classList.toggle('active', el.dataset.fontsize === currentFontSize));
+  document.querySelectorAll('.radius-option').forEach(el => el.classList.toggle('active', el.dataset.corner === currentCorner));
+  document.getElementById('btn-light').classList.toggle('active', currentMode === 'light');
+  document.getElementById('btn-dark').classList.toggle('active', currentMode === 'dark');
+  document.querySelectorAll('.lang-option').forEach(el => el.classList.toggle('active', el.dataset.lang === currentLang));
+}
+function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
+
+function setTheme(t) {
+  currentTheme = t; localStorage.setItem('theme', t);
+  document.querySelectorAll('.theme-option').forEach(el => el.classList.toggle('active', el.dataset.theme === t));
+  document.body.setAttribute('data-theme', t);
+  requestAnimationFrame(() => renderDeco(currentDeco));
+}
+function setMode(m) {
+  currentMode = m; localStorage.setItem('mode', m);
+  document.getElementById('btn-light').classList.toggle('active', m === 'light');
+  document.getElementById('btn-dark').classList.toggle('active', m === 'dark');
+  document.body.setAttribute('data-mode', m);
+  requestAnimationFrame(() => renderDeco(currentDeco));
+}
+function setLang(l) {
+  currentLang = l; localStorage.setItem('lang', l);
+  document.querySelectorAll('.lang-option').forEach(el => el.classList.toggle('active', el.dataset.lang === l));
+  applyAll();
+  renderList();
+  if (viewingId) renderView(viewingId);
+}
+function setDeco(d) {
+  currentDeco = d; localStorage.setItem('deco', d);
+  document.querySelectorAll('.deco-option').forEach(el => el.classList.toggle('active', el.dataset.deco === d));
+  renderDeco(d);
+}
+function setFontSize(s) {
+  currentFontSize = s; localStorage.setItem('fontsize', s);
+  document.querySelectorAll('.font-size-option').forEach(el => el.classList.toggle('active', el.dataset.fontsize === s));
+  document.body.setAttribute('data-fontsize', s);
+  applyFontSizeVars(s);
+}
+function setCorner(c) {
+  currentCorner = c; localStorage.setItem('corner', c);
+  document.querySelectorAll('.radius-option').forEach(el => el.classList.toggle('active', el.dataset.corner === c));
+  document.body.setAttribute('data-corner', c);
+  applyCornerVars(c);
+}
+
+// ══════════════════════════════════════════════
+// PAGES
+// ══════════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (name === 'list') renderList();
+  if (name === 'collections') renderCollections();
+  if (name === 'form' && !editingId) resetForm();
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════════════
+// THEMED CONFIRM MODAL (replaces native confirm())
+// ══════════════════════════════════════════════
+let _confirmModalResolveFn = null;
+function showConfirmModal(opts) {
+  const t = T[currentLang] || T.en;
+  const title = (opts && opts.title) || t.deleteConfirm || 'Are you sure?';
+  const text = (opts && opts.text) || '';
+  const okLabel = (opts && opts.okLabel) || t.delete || 'Delete';
+  const cancelLabel = (opts && opts.cancelLabel) || t.cancel || 'Cancel';
+  const icon = (opts && opts.icon) || '🗑️';
+  document.getElementById('confirmModalTitle').textContent = title;
+  const textEl = document.getElementById('confirmModalText');
+  textEl.textContent = text;
+  textEl.style.display = text ? 'block' : 'none';
+  document.querySelector('#confirmModal .confirm-modal-icon').textContent = icon;
+  const okBtn = document.getElementById('confirmModalOk');
+  okBtn.textContent = okLabel;
+  document.getElementById('confirmModalCancel').textContent = cancelLabel;
+  const modal = document.getElementById('confirmModal');
+  modal.classList.add('show');
+  return new Promise(resolve => {
+    _confirmModalResolveFn = resolve;
+    okBtn.onclick = () => { modal.classList.remove('show'); resolve(true); _confirmModalResolveFn = null; };
+  });
+}
+function closeConfirmModal(event) {
+  if (event && event.target !== event.currentTarget) return; // only close on overlay click, not inner content
+  document.getElementById('confirmModal').classList.remove('show');
+  if (_confirmModalResolveFn) { _confirmModalResolveFn(false); _confirmModalResolveFn = null; }
+}
+
+// ══════════════════════════════════════════════
+// FORM
+// ══════════════════════════════════════════════
+function resetForm() {
+  editingId = null; photoData = null;
+  ['f-title','f-prep','f-cook','f-servings','f-tags','f-description','f-ingredients','f-method','f-tips'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-category').value = 'Breakfast';
+  document.getElementById('f-difficulty').value = 'Easy ⭐';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoPlaceholder').style.display = 'block';
+}
+
+function handlePhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    photoData = ev.target.result;
+    document.getElementById('photoPreview').src = photoData;
+    document.getElementById('photoPreview').style.display = 'block';
+    document.getElementById('photoPlaceholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveRecipe() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { showToast('⚠️ Please enter a title'); return; }
+  const recipe = {
+    id: editingId || Date.now(),
+    title, photo: photoData,
+    category: document.getElementById('f-category').value,
+    prep: document.getElementById('f-prep').value,
+    cook: document.getElementById('f-cook').value,
+    servings: document.getElementById('f-servings').value,
+    difficulty: document.getElementById('f-difficulty').value,
+    tags: document.getElementById('f-tags').value,
+    description: document.getElementById('f-description').value,
+    ingredients: document.getElementById('f-ingredients').value,
+    method: document.getElementById('f-method').value,
+    tips: document.getElementById('f-tips').value,
+    date: new Date().toLocaleDateString(),
+  };
+  if (editingId) {
+    const idx = recipes.findIndex(r => r.id === editingId);
+    if (idx > -1) recipes[idx] = recipe;
+  } else { recipes.push(recipe); }
+  localStorage.setItem('recipes', JSON.stringify(recipes));
+  scheduleFirestoreSave();
+  editingId = null; photoData = null;
+  updateStats();
+  showToast((T[currentLang] || T.en).recipeSaved);
+  showPage('list');
+}
+function cancelForm() { editingId = null; showPage(recipes.length ? 'list' : 'home'); }
+
+// ══════════════════════════════════════════════
+// LIST
+// ══════════════════════════════════════════════
+const CATEGORY_EMOJI = {Breakfast:'🥞',Lunch:'🥗',Dinner:'🍽️',Dessert:'🍰',Snack:'🥨',Soup:'🍲',Salad:'🥗',Bread:'🍞',Drink:'🥤',Other:'🍴'};
+const CATEGORY_KEY = {Breakfast:'catBreakfast',Lunch:'catLunch',Dinner:'catDinner',Dessert:'catDessert',Snack:'catSnack',Soup:'catSoup',Salad:'catSalad',Bread:'catBread',Drink:'catDrink',Other:'catOther'};
+const DIFFICULTY_STARS = {Easy:'⭐',Medium:'⭐⭐',Hard:'⭐⭐⭐'};
+const DIFFICULTY_KEY = {Easy:'diffEasy',Medium:'diffMedium',Hard:'diffHard'};
+
+function categoryLabel(cat, includeEmoji = true) {
+  const t = T[currentLang] || T.en;
+  const key = CATEGORY_KEY[cat];
+  const label = key ? (t[key] || cat) : cat;
+  return includeEmoji ? `${CATEGORY_EMOJI[cat] || '🍴'} ${label}` : label;
+}
+function difficultyLabel(diff) {
+  if (!diff) return '';
+  const base = diff.split(' ')[0];
+  const t = T[currentLang] || T.en;
+  const key = DIFFICULTY_KEY[base];
+  const label = key ? (t[key] || base) : base;
+  return `${label} ${DIFFICULTY_STARS[base] || ''}`.trim();
+}
+
+function renderList() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const t = T[currentLang] || T.en;
+  const cats = ['All', ...new Set(recipes.map(r => r.category))];
+  document.getElementById('filterChips').innerHTML = cats.map(c =>
+    `<div class="chip ${c === currentFilter ? 'active' : ''}" onclick="setFilter('${c}')">${c === 'All' ? t.all : categoryLabel(c)}</div>`
+  ).join('');
+
+  const favBtn = document.getElementById('favToggleBtn');
+  if (favBtn) { favBtn.textContent = showFavoritesOnly ? '❤️' : '🤍'; }
+
+  const banner = document.getElementById('activeFilterBanner');
+  const bannerText = document.getElementById('activeFilterText');
+  let bannerParts = [];
+  if (currentTagFilter) bannerParts.push(`🏷️ ${currentTagFilter}`);
+  if (currentCollectionFilter) {
+    const c = collections.find(c => c.id === currentCollectionFilter);
+    if (c) bannerParts.push(`🗂️ ${c.name}`); else currentCollectionFilter = null;
+  }
+  if (bannerParts.length) { banner.style.display = 'flex'; bannerText.textContent = bannerParts.join(' · '); }
+  else { banner.style.display = 'none'; }
+
+  let filtered = recipes.filter(r => {
+    const matchCat = currentFilter === 'All' || r.category === currentFilter;
+    const matchQ = !query || r.title.toLowerCase().includes(query) || (r.description||'').toLowerCase().includes(query) || (r.tags||'').toLowerCase().includes(query);
+    const matchFav = !showFavoritesOnly || !!r.favorite;
+    const rTags = (r.tags||'').split(',').map(x=>x.trim().toLowerCase()).filter(Boolean);
+    const matchTag = !currentTagFilter || rTags.includes(currentTagFilter.toLowerCase());
+    const matchCollection = !currentCollectionFilter || (() => {
+      const c = collections.find(c => c.id === currentCollectionFilter);
+      return c && c.recipeIds.includes(r.id);
+    })();
+    return matchCat && matchQ && matchFav && matchTag && matchCollection;
+  });
+  const grid = document.getElementById('recipesGrid');
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🍳</div><p>${t.noRecipes}</p><small style="color:var(--text3)">${t.noRecipesHint}</small></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(r => {
+    const rTags = (r.tags||'').split(',').map(x=>x.trim()).filter(Boolean);
+    return `
+    <div class="recipe-card" onclick="viewRecipe(${r.id})" style="position:relative;">
+      <button onclick="event.stopPropagation();toggleFavorite(${r.id})" style="position:absolute;top:8px;right:8px;z-index:2;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;">${r.favorite ? '❤️' : '🤍'}</button>
+      <div class="recipe-card-img">
+        ${r.photo ? `<img src="${r.photo}" alt="${r.title}"/>` : (CATEGORY_EMOJI[r.category] || '🍴')}
+      </div>
+      <div class="recipe-card-body">
+        <div class="recipe-card-title">${r.title}</div>
+        <div class="recipe-card-meta">
+          <span class="tag-pill">${categoryLabel(r.category)}</span>
+          ${r.difficulty ? `<span class="tag-pill">${difficultyLabel(r.difficulty).split(' ')[0]}</span>` : ''}
+          ${r.prep ? `<span class="tag-pill">⏱ ${r.prep}</span>` : ''}
+        </div>
+        ${rTags.length ? `<div class="recipe-card-meta" style="margin-top:4px;">${rTags.map(tg=>`<span class="tag-pill" onclick="event.stopPropagation();filterByTag('${tg.replace(/'/g,"\\'")}')" style="cursor:pointer;">#${tg}</span>`).join('')}</div>` : ''}
+      </div>
+    </div>
+  `;}).join('');
+}
+function setFilter(cat) { currentFilter = cat; renderList(); }
+function toggleFavoritesFilter() { showFavoritesOnly = !showFavoritesOnly; renderList(); }
+function filterByTag(tag) { currentTagFilter = tag; currentCollectionFilter = null; showPage('list'); renderList(); }
+function clearExtraFilters() { currentTagFilter = null; currentCollectionFilter = null; renderList(); }
+function toggleFavorite(id) {
+  const r = recipes.find(x => x.id === id);
+  if (!r) return;
+  r.favorite = !r.favorite;
+  localStorage.setItem('recipes', JSON.stringify(recipes));
+  scheduleFirestoreSave();
+  renderList();
+  if (viewingId === id) renderView(id);
+}
+
+// ══════════════════════════════════════════════
+// VIEW
+// ══════════════════════════════════════════════
+function viewRecipe(id) {
+  const activePage = document.querySelector('.page.active');
+  viewReturnPage = activePage ? activePage.id.replace('page-', '') : 'list';
+  viewingId = id; renderView(id); showPage('view');
+}
+function goBackFromView() {
+  showPage(viewReturnPage === 'view' ? 'list' : viewReturnPage);
+}
+function renderView(id) {
+  const r = recipes.find(x => x.id === id);
+  if (!r) return;
+  const t = T[currentLang] || T.en;
+  const ingredients = r.ingredients ? r.ingredients.split('\n').filter(Boolean).map(i => `<li>${i}</li>`).join('') : '';
+  const method = r.method ? r.method.split('\n').filter(Boolean).map(s => `<li>${s}</li>`).join('') : '';
+  document.getElementById('recipeViewContent').innerHTML = `
+    <div class="recipe-view-header">
+      <div class="recipe-view-img">
+        ${r.photo ? `<img src="${r.photo}" alt="${r.title}"/>` : (CATEGORY_EMOJI[r.category] || '🍴')}
+      </div>
+      <div class="recipe-view-info">
+        <div class="recipe-view-title">${r.title}</div>
+        ${r.description ? `<div class="recipe-view-desc">${r.description}</div>` : ''}
+        <div class="meta-chips">
+          ${r.category ? `<div class="meta-chip">🏷️ ${categoryLabel(r.category, false)}</div>` : ''}
+          ${r.prep ? `<div class="meta-chip">⏱️ ${r.prep}</div>` : ''}
+          ${r.cook ? `<div class="meta-chip">🔥 ${r.cook}</div>` : ''}
+          ${r.servings ? `<div class="meta-chip">👥 ${r.servings}</div>` : ''}
+          ${r.difficulty ? `<div class="meta-chip">${difficultyLabel(r.difficulty)}</div>` : ''}
+        </div>
+        ${r.tags ? `<div class="meta-chips">${r.tags.split(',').map(tg=>tg.trim()).filter(Boolean).map(tg=>`<div class="tag-pill" onclick="filterByTag('${tg.replace(/'/g,"\\'")}')" style="cursor:pointer;">#${tg}</div>`).join('')}</div>` : ''}
+        <div class="meta-chips" style="margin-top:8px;">
+          <button class="btn" onclick="toggleFavorite(${r.id})">${r.favorite ? '❤️ Favorited' : '🤍 Favorite'}</button>
+          <button class="btn" onclick="openCollectionPicker(${r.id})">🗂️ Add to Collection</button>
+        </div>
+      </div>
+    </div>
+    ${ingredients ? `<div class="recipe-section"><h3>🧄 ${t.ingredients}</h3><ul class="ingredient-list">${ingredients}</ul></div>` : ''}
+    ${method ? `<div class="recipe-section"><h3>🥄 ${t.method}</h3><ol class="method-list">${method}</ol></div>` : ''}
+    ${r.tips ? `<div class="recipe-section"><h3>💡 ${t.tips}</h3><div class="tips-box">${r.tips}</div></div>` : ''}
+  `;
+}
+
+function editCurrentRecipe() {
+  const r = recipes.find(x => x.id === viewingId);
+  if (!r) return;
+  editingId = r.id; photoData = r.photo || null;
+  document.getElementById('f-title').value = r.title || '';
+  document.getElementById('f-category').value = r.category || 'Other';
+  document.getElementById('f-prep').value = r.prep || '';
+  document.getElementById('f-cook').value = r.cook || '';
+  document.getElementById('f-servings').value = r.servings || '';
+  document.getElementById('f-difficulty').value = r.difficulty || 'Easy ⭐';
+  document.getElementById('f-tags').value = r.tags || '';
+  document.getElementById('f-description').value = r.description || '';
+  document.getElementById('f-ingredients').value = r.ingredients || '';
+  document.getElementById('f-method').value = r.method || '';
+  document.getElementById('f-tips').value = r.tips || '';
+  if (r.photo) {
+    document.getElementById('photoPreview').src = r.photo;
+    document.getElementById('photoPreview').style.display = 'block';
+    document.getElementById('photoPlaceholder').style.display = 'none';
+  } else {
+    document.getElementById('photoPreview').style.display = 'none';
+    document.getElementById('photoPlaceholder').style.display = 'block';
+  }
+  showPage('form');
+}
+
+async function deleteCurrentRecipe() {
+  const t = T[currentLang] || T.en;
+  const ok = await showConfirmModal({ title: t.deleteConfirm, icon: '🗑️' });
+  if (!ok) return;
+  recipes = recipes.filter(r => r.id !== viewingId);
+  localStorage.setItem('recipes', JSON.stringify(recipes));
+  scheduleFirestoreSave();
+  updateStats();
+  showToast(t.recipeDeleted);
+  goBackFromView();
+}
+
+// ══════════════════════════════════════════════
+// BACKUP: EXPORT / IMPORT ALL RECIPES
+// ══════════════════════════════════════════════
+function exportAllRecipes() {
+  const backup = {
+    exportedAt: new Date().toISOString(),
+    recipes,
+    collections,
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dateStr = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `recipe-book-backup-${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('📦 ' + ((T[currentLang] || T.en).backupSaved || 'Backup file downloaded'));
+}
+function importAllRecipes(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      const importedRecipes = Array.isArray(data.recipes) ? data.recipes : (Array.isArray(data) ? data : null);
+      if (!importedRecipes) { showToast('⚠️ Invalid backup file'); return; }
+      const mode = confirm('Click OK to MERGE with your current recipes, or Cancel to REPLACE everything with this backup.');
+      if (mode) {
+        const existingIds = new Set(recipes.map(r => r.id));
+        importedRecipes.forEach(r => { if (!existingIds.has(r.id)) recipes.push(r); });
+        if (Array.isArray(data.collections)) {
+          const existingColIds = new Set(collections.map(c => c.id));
+          data.collections.forEach(c => { if (!existingColIds.has(c.id)) collections.push(c); });
+        }
+      } else {
+        recipes = importedRecipes;
+        if (Array.isArray(data.collections)) collections = data.collections;
+      }
+      localStorage.setItem('recipes', JSON.stringify(recipes));
+      saveCollections();
+      scheduleFirestoreSave();
+      updateStats();
+      renderList();
+      showToast('✅ Backup restored');
+    } catch (err) {
+      showToast('⚠️ Could not read this file');
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// ══════════════════════════════════════════════
+// COLLECTIONS
+// ══════════════════════════════════════════════
+function saveCollections() { localStorage.setItem('collections', JSON.stringify(collections)); }
+function createCollection() {
+  const name = prompt('Collection name (e.g. "Ramadan Recipes", "Kids"):');
+  if (!name || !name.trim()) return;
+  collections.push({ id: Date.now(), name: name.trim(), recipeIds: [] });
+  saveCollections();
+  renderCollections();
+}
+async function deleteCollection(id) {
+  const ok = await showConfirmModal({ title: 'Delete this collection?', icon: '🗂️' });
+  if (!ok) return;
+  collections = collections.filter(c => c.id !== id);
+  saveCollections();
+  if (currentCollectionFilter === id) currentCollectionFilter = null;
+  renderCollections();
+}
+function viewCollection(id) {
+  currentCollectionFilter = id;
+  currentTagFilter = null;
+  viewReturnPage = 'collections';
+  showPage('list');
+  renderList();
+}
+function renderCollections() {
+  const grid = document.getElementById('collectionsGrid');
+  if (!collections.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">🗂️</div><p>No collections yet</p><small style="color:var(--text3)">Create one to group your recipes, like "Ramadan Recipes" or "Kids"</small></div>`;
+    return;
+  }
+  grid.innerHTML = collections.map(c => `
+    <div class="recipe-card" style="position:relative;cursor:pointer;" onclick="viewCollection(${c.id})">
+      <button onclick="event.stopPropagation();deleteCollection(${c.id})" style="position:absolute;top:8px;right:8px;z-index:2;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:32px;height:32px;font-size:14px;cursor:pointer;">🗑️</button>
+      <div class="recipe-card-img">🗂️</div>
+      <div class="recipe-card-body">
+        <div class="recipe-card-title">${c.name}</div>
+        <div class="recipe-card-meta"><span class="tag-pill">${c.recipeIds.length} recipe${c.recipeIds.length===1?'':'s'}</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+function openCollectionPicker(recipeId) {
+  if (!collections.length) {
+    if (confirm('You have no collections yet. Create one now?')) {
+      createCollection();
+      if (!collections.length) return;
+    } else return;
+  }
+  const options = collections.map((c,i) => `${i+1}. ${c.name}${c.recipeIds.includes(recipeId) ? ' ✓' : ''}`).join('\n');
+  const choice = prompt(`Add/remove recipe from collection:\n${options}\n\nEnter the number:`);
+  if (!choice) return;
+  const idx = parseInt(choice, 10) - 1;
+  if (isNaN(idx) || !collections[idx]) return;
+  const c = collections[idx];
+  if (c.recipeIds.includes(recipeId)) {
+    c.recipeIds = c.recipeIds.filter(id => id !== recipeId);
+    showToast(`Removed from "${c.name}"`);
+  } else {
+    c.recipeIds.push(recipeId);
+    showToast(`Added to "${c.name}"`);
+  }
+  saveCollections();
+}
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+// ══════════════════════════════════════════════
+// CLOSE MODAL ON OUTSIDE CLICK
+// ══════════════════════════════════════════════
+document.getElementById('settingsModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSettings();
+});
+
+// ══════════════════════════════════════════════
+// GOOGLE SIGN-IN + FIRESTORE SYNC
+// ══════════════════════════════════════════════
+let _saveDebounceTimer = null;
+let _firestoreUnsubscribe = null;
+
+// Firestore path is separate from the Habit Tracker's data
+// (users/{uid}/data/recipes) so the two apps never overwrite each other,
+// even though they share the same Firebase project/login.
+function scheduleFirestoreSave() {
+  if (!window._currentUser) return;
+  const uid = window._currentUser.uid;
+  clearTimeout(_saveDebounceTimer);
+  _saveDebounceTimer = setTimeout(() => _saveToFirestore(uid), 600);
+}
+
+async function _saveToFirestore(expectedUid) {
+  const user = window._currentUser;
+  if (!user || !window._fbDb || user.uid !== expectedUid) return;
+  try {
+    const docRef = window._fbDoc(window._fbDb, 'users', user.uid, 'data', 'recipes');
+    await window._fbSetDoc(docRef, {
+      recipes,
+      updatedAt: Date.now()
+    });
+  } catch (e) {
+    console.error('Firestore save failed:', e);
+  }
+}
+
+async function _loadFromFirestore(user) {
+  if (!user || !window._fbDb) return;
+
+  if (_firestoreUnsubscribe) { _firestoreUnsubscribe(); _firestoreUnsubscribe = null; }
+
+  const docRef = window._fbDoc(window._fbDb, 'users', user.uid, 'data', 'recipes');
+
+  let _firstSnapshot = true;
+  _firestoreUnsubscribe = window._fbOnSnapshot(docRef, (snap) => {
+    if (snap.exists()) {
+      const data = snap.data();
+      if (Array.isArray(data.recipes)) {
+        recipes = data.recipes;
+        localStorage.setItem('recipes', JSON.stringify(recipes));
+        updateStats();
+        if (document.getElementById('page-list').classList.contains('active')) renderList();
+        if (viewingId) renderView(viewingId);
+      }
+    } else {
+      // First sign-in on this account: push whatever is currently stored
+      // locally (e.g. recipes added before signing in) up to Firestore.
+      _saveToFirestore(user.uid);
+    }
+    // After first snapshot, trigger any pending shared-recipe import
+    if (_firstSnapshot) {
+      _firstSnapshot = false;
+      if (window._importAfterLoad) {
+        window._importAfterLoad = false;
+        setTimeout(_processPendingImport, 300);
+      }
+    }
+  }, (err) => {
+    console.error('Firestore listen failed:', err);
+  });
+}
+
+function _refreshSignInAvailability() {
+  const enabled = window._fbReady === true;
+  const btn = document.getElementById('googleSignInBtn');
+  if (btn) btn.disabled = !enabled;
+}
+
+function doSignInWithGoogle() {
+  if (!window._fbReady) { _refreshSignInAvailability(); return; }
+  const btn = document.getElementById('googleSignInBtn');
+  const errEl = document.getElementById('authError');
+  if (errEl) errEl.style.display = 'none';
+  if (btn) { btn.disabled = true; document.getElementById('googleSignInBtnText').textContent = 'Signing in…'; }
+
+  // Detect Android WebView — Google blocks signInWithPopup inside WebView since 2021.
+  // Use signInWithRedirect directly on WebView to avoid the silent block.
+  const isWebView = /wv|WebView/.test(navigator.userAgent) ||
+                    (navigator.userAgent.includes('Android') && !navigator.userAgent.includes('Chrome/'));
+
+  if (isWebView) {
+    window._fbSignInWithRedirect(window._fbAuth, window._fbProvider)
+      .catch(err => {
+        console.error('Redirect sign-in error:', err);
+        if (errEl) {
+          errEl.textContent = 'Sign-in failed: ' + (err.message || 'please try again.');
+          errEl.style.display = 'block';
+        }
+        if (btn) { btn.disabled = false; document.getElementById('googleSignInBtnText').textContent = 'Sign in with Google'; }
+      });
+    return;
+  }
+
+  window._fbSignInWithPopup(window._fbAuth, window._fbProvider)
+    .catch(err => {
+      console.error('Sign-in error:', err);
+      // Popups get blocked on some mobile browsers — fall back to redirect.
+      if (err && (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request')) {
+        return window._fbSignInWithRedirect(window._fbAuth, window._fbProvider);
+      }
+      if (errEl) {
+        errEl.textContent = 'Sign-in failed: ' + (err.message || 'please try again.');
+        errEl.style.display = 'block';
+      }
+    })
+    .finally(() => {
+      if (btn) { btn.disabled = false; document.getElementById('googleSignInBtnText').textContent = 'Sign in with Google'; }
+    });
+}
+
+function doSignOut() {
+  if (!confirm('Sign out of your account?')) return;
+
+  clearTimeout(_saveDebounceTimer);
+  if (_firestoreUnsubscribe) { _firestoreUnsubscribe(); _firestoreUnsubscribe = null; }
+
+  const signOutBtn = document.getElementById('navSignOutBtn');
+  if (signOutBtn) { signOutBtn.disabled = true; signOutBtn.textContent = '...'; }
+
+  window._fbSignOut(window._fbAuth).then(() => {
+    recipes = [];
+    localStorage.removeItem('recipes');
+    updateStats();
+    showPage('home');
+  }).catch(err => {
+    console.error('Sign-out error:', err);
+    showToast('⚠️ Sign-out failed, please try again');
+  }).finally(() => {
+    if (signOutBtn) { signOutBtn.disabled = false; signOutBtn.textContent = 'Sign out'; }
+  });
+}
+
+function _updateNavUserUI(user) {
+  const overlay = document.getElementById('authOverlay');
+  const userBadge = document.getElementById('navUserBadge');
+  const avatarEl = document.getElementById('navUserAvatar');
+  const nameEl = document.getElementById('navUserName');
+  const body = document.body;
+
+  if (user) {
+    if (overlay) { overlay.classList.add('hidden'); }
+    body.classList.remove('auth-active');
+    if (userBadge) userBadge.style.display = 'flex';
+
+    if (avatarEl) {
+      if (user.photoURL) {
+        avatarEl.outerHTML = `<img class="nav-user-avatar" id="navUserAvatar" src="${user.photoURL}" alt="avatar">`;
+      } else {
+        avatarEl.textContent = (user.displayName || user.email || '?').charAt(0).toUpperCase();
+      }
+    }
+    if (nameEl) nameEl.textContent = user.displayName || user.email || '';
+  } else {
+    if (overlay) { overlay.classList.remove('hidden'); }
+    body.classList.add('auth-active');
+    if (userBadge) userBadge.style.display = 'none';
+    _refreshSignInAvailability();
+  }
+}
+
+// =========== ACCESS CONTROL (Firestore: allowed_users_cook/{email}.active === true) ===========
+// Separate collection from the Habit Tracker ("allowed_users_cook" vs "allowed_users"),
+// same Firebase project — each app now has its own independent subscriber list.
+
+function _showAccessLockOverlay() {
+  const lockOverlay = document.getElementById('accessLockOverlay');
+  const authOverlay = document.getElementById('authOverlay');
+  if (authOverlay) authOverlay.classList.add('hidden');
+  if (lockOverlay) lockOverlay.classList.add('visible');
+  document.body.classList.add('auth-active');
+}
+
+function _hideAccessLockOverlay() {
+  const lockOverlay = document.getElementById('accessLockOverlay');
+  if (lockOverlay) lockOverlay.classList.remove('visible');
+}
+
+// Checks Firestore collection "allowed_users_cook" for a document whose ID is the
+// user's lowercase email, with a boolean field "active" set to true.
+async function _checkUserAccess(user) {
+  if (!user || !user.email || !window._fbDb) return false;
+  try {
+    const email = user.email.toLowerCase();
+    const ref = window._fbDoc(window._fbDb, 'allowed_users_cook', email);
+    const snap = await window._fbGetDoc(ref);
+    if (!snap.exists()) return false;
+    const data = snap.data();
+    return data && data.active === true;
+  } catch (e) {
+    console.error('Access check failed:', e);
+    return false;
+  }
+}
+
+// Called by the Firebase module script whenever auth state changes
+window._onAuthReady = async function(user) {
+  if (!user) {
+    _hideAccessLockOverlay();
+    _updateNavUserUI(user);
+    if (_firestoreUnsubscribe) { _firestoreUnsubscribe(); _firestoreUnsubscribe = null; }
+    return;
+  }
+
+  // Show a lightweight "checking" indicator while we verify access, so the
+  // app UI never flashes open before the subscription check completes.
+  const checkingMsg = document.getElementById('lockCheckingMsg');
+  if (checkingMsg) checkingMsg.style.display = 'block';
+  document.body.classList.add('auth-active');
+
+  const allowed = await _checkUserAccess(user);
+
+  if (checkingMsg) checkingMsg.style.display = 'none';
+
+  if (allowed) {
+    _hideAccessLockOverlay();
+    _updateNavUserUI(user);
+    window._importAfterLoad = !!window._pendingImport;
+    _loadFromFirestore(user);
+    // If no pending import, nothing extra needed.
+    // If there IS one, _loadFromFirestore's snapshot triggers _processPendingImport via flag.
+  } else {
+    // Account is not an active subscriber: keep the app UI fully hidden
+    // behind the lock overlay and skip syncing/loading any data.
+    _showAccessLockOverlay();
+  }
+};
+window._onFirebaseReady = _refreshSignInAvailability;
+
+// ══════════════════════════════════════════════
+// VOICE RECORDER
+// ══════════════════════════════════════════════
+let _mediaRecorder = null;
+let _audioChunks = [];
+let _recTimerInterval = null;
+let _recSeconds = 0;
+let _analyser = null;
+let _animFrame = null;
+let _audioCtx = null;
+let _barAnimInterval = null;
+
+function _fmtTime(s) {
+  const m = Math.floor(s / 60).toString().padStart(2,'0');
+  const sec = (s % 60).toString().padStart(2,'0');
+  return `${m}:${sec}`;
+}
+
+function _startBarAnimation(live) {
+  const bars = document.querySelectorAll('.vbar');
+  if (live && _analyser) {
+    const data = new Uint8Array(_analyser.frequencyBinCount);
+    function draw() {
+      _analyser.getByteFrequencyData(data);
+      bars.forEach((b, i) => {
+        const val = data[Math.floor(i * data.length / bars.length)] || 0;
+        const h = 4 + (val / 255) * 44;
+        b.style.height = h + 'px';
+        b.classList.toggle('active', val > 10);
+      });
+      _animFrame = requestAnimationFrame(draw);
+    }
+    draw();
+  } else {
+    // idle animation
+    let t = 0;
+    _barAnimInterval = setInterval(() => {
+      bars.forEach((b, i) => {
+        const h = 4 + Math.abs(Math.sin((t + i * 0.4) * 0.9)) * 18;
+        b.style.height = h + 'px';
+        b.classList.remove('active');
+      });
+      t += 0.2;
+    }, 60);
+  }
+}
+
+function _stopBarAnimation() {
+  if (_animFrame) { cancelAnimationFrame(_animFrame); _animFrame = null; }
+  if (_barAnimInterval) { clearInterval(_barAnimInterval); _barAnimInterval = null; }
+  document.querySelectorAll('.vbar').forEach(b => { b.style.height = '6px'; b.classList.remove('active'); });
+}
+
+async function startRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    // Set up analyser for waveform
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    _analyser = _audioCtx.createAnalyser();
+    _analyser.fftSize = 64;
+    const src = _audioCtx.createMediaStreamSource(stream);
+    src.connect(_analyser);
+
+    _mediaRecorder = new MediaRecorder(stream);
+    _audioChunks = [];
+    _mediaRecorder.ondataavailable = e => { if (e.data.size > 0) _audioChunks.push(e.data); };
+    _mediaRecorder.onstop = () => {
+      const blob = new Blob(_audioChunks, { type: 'audio/webm' });
+      const url = URL.createObjectURL(blob);
+      const player = document.getElementById('voiceAudioPlayer');
+      player.src = url;
+      player.style.display = 'block';
+      document.getElementById('btnClearRec').style.display = '';
+      _setVoiceStatus('voiceStatus', '✓ Recording saved', 'ok');
+      stream.getTracks().forEach(t => t.stop());
+      if (_audioCtx) { _audioCtx.close(); _audioCtx = null; _analyser = null; }
+    };
+    _mediaRecorder.start(100);
+
+    _recSeconds = 0;
+    document.getElementById('voiceTimer').textContent = '00:00';
+    _recTimerInterval = setInterval(() => {
+      _recSeconds++;
+      document.getElementById('voiceTimer').textContent = _fmtTime(_recSeconds);
+    }, 1000);
+
+    document.getElementById('btnStartRec').style.display = 'none';
+    document.getElementById('btnStopRec').style.display = '';
+    document.getElementById('btnClearRec').style.display = 'none';
+    document.getElementById('voiceAudioPlayer').style.display = 'none';
+    document.getElementById('btnStartRec').classList.add('recording');
+    _setVoiceStatus('voiceStatus', '🔴 Recording...', 'listening');
+    _startBarAnimation(true);
+  } catch(e) {
+    _setVoiceStatus('voiceStatus', '⚠️ Microphone access denied', '');
+  }
+}
+
+function stopRecording() {
+  if (_mediaRecorder && _mediaRecorder.state !== 'inactive') {
+    _mediaRecorder.stop();
+  }
+  clearInterval(_recTimerInterval);
+  _stopBarAnimation();
+  document.getElementById('btnStartRec').style.display = '';
+  document.getElementById('btnStopRec').style.display = 'none';
+  document.getElementById('btnStartRec').classList.remove('recording');
+}
+
+function clearRecording() {
+  const player = document.getElementById('voiceAudioPlayer');
+  player.pause(); player.src = ''; player.style.display = 'none';
+  _audioChunks = [];
+  _recSeconds = 0;
+  document.getElementById('voiceTimer').textContent = '00:00';
+  document.getElementById('btnClearRec').style.display = 'none';
+  _setVoiceStatus('voiceStatus', '', '');
+  _stopBarAnimation();
+}
+
+function _setVoiceStatus(id, msg, cls) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'voice-status' + (cls ? ' ' + cls : '');
+}
+
+// ══════════════════════════════════════════════
+// SPEECH TO TEXT (Web Speech API)
+// ══════════════════════════════════════════════
+let _recognition = null;
+let _transcribeLang = 'ar-DZ';
+let _isTranscribing = false;
+let _fullTranscript = '';
+
+function setTranscribeLang(lang, btnId) {
+  _transcribeLang = lang;
+  document.querySelectorAll('.voice-lang-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(btnId);
+  if (btn) btn.classList.add('active');
+  if (_isTranscribing) {
+    stopTranscribe();
+    setTimeout(startTranscribe, 300);
+  }
+}
+
+function toggleTranscribe() {
+  if (_isTranscribing) stopTranscribe();
+  else startTranscribe();
+}
+
+function startTranscribe() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    _setVoiceStatus('transcribeStatus', '⚠️ Speech recognition not supported in this browser', '');
+    return;
+  }
+  _recognition = new SpeechRecognition();
+  _recognition.continuous = true;
+  _recognition.interimResults = true;
+  _recognition.lang = _transcribeLang;
+
+  let interim = '';
+  _recognition.onresult = (e) => {
+    interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) {
+        _fullTranscript += e.results[i][0].transcript + ' ';
+      } else {
+        interim += e.results[i][0].transcript;
+      }
+    }
+    const ta = document.getElementById('voiceTranscript');
+    ta.value = _fullTranscript + interim;
+    ta.scrollTop = ta.scrollHeight;
+  };
+
+  _recognition.onerror = (e) => {
+    if (e.error !== 'aborted') {
+      _setVoiceStatus('transcribeStatus', '⚠️ ' + e.error, '');
+    }
+    stopTranscribe();
+  };
+
+  _recognition.onend = () => {
+    if (_isTranscribing) {
+      // auto restart for continuous listening
+      try { _recognition.start(); } catch(e2) {}
+    }
+  };
+
+  try {
+    _recognition.start();
+    _isTranscribing = true;
+    document.getElementById('btnTranscribeMic').classList.add('listening');
+    document.getElementById('micIcon').textContent = '🔴';
+    document.getElementById('micRing').classList.add('animate');
+    _setVoiceStatus('transcribeStatus', '🎙️ Listening...', 'listening');
+  } catch(e) {
+    _setVoiceStatus('transcribeStatus', '⚠️ Could not start', '');
+  }
+}
+
+function stopTranscribe() {
+  _isTranscribing = false;
+  if (_recognition) { try { _recognition.stop(); } catch(e){} _recognition = null; }
+  document.getElementById('btnTranscribeMic').classList.remove('listening');
+  document.getElementById('micIcon').textContent = '🎙️';
+  document.getElementById('micRing').classList.remove('animate');
+  const ta = document.getElementById('voiceTranscript');
+  if (ta.value.trim()) {
+    _setVoiceStatus('transcribeStatus', '✓ Done — tap mic to continue', 'ok');
+  } else {
+    _setVoiceStatus('transcribeStatus', '', '');
+  }
+}
+
+function copyTranscript() {
+  const text = document.getElementById('voiceTranscript').value;
+  if (!text.trim()) return;
+  navigator.clipboard.writeText(text).then(() => {
+    _setVoiceStatus('transcribeStatus', '✓ Copied!', 'ok');
+    setTimeout(() => _setVoiceStatus('transcribeStatus', '', ''), 2000);
+  }).catch(() => {
+    document.getElementById('voiceTranscript').select();
+    document.execCommand('copy');
+    _setVoiceStatus('transcribeStatus', '✓ Copied!', 'ok');
+    setTimeout(() => _setVoiceStatus('transcribeStatus', '', ''), 2000);
+  });
+}
+
+function appendTranscriptToNotes() {
+  const text = document.getElementById('voiceTranscript').value.trim();
+  if (!text) return;
+  const tips = document.getElementById('f-tips');
+  tips.value = (tips.value ? tips.value + '\n' : '') + text;
+  _setVoiceStatus('transcribeStatus', '✓ Added to Notes!', 'ok');
+  setTimeout(() => _setVoiceStatus('transcribeStatus', '', ''), 2000);
+}
+
+function clearTranscript() {
+  document.getElementById('voiceTranscript').value = '';
+  _fullTranscript = '';
+  _setVoiceStatus('transcribeStatus', '', '');
+}
+
+// ══════════════════════════════════════════════
+// SHARE
+// ══════════════════════════════════════════════
+function openShareModal() {
+  // "More..." only makes sense where the OS share sheet exists (mostly
+  // mobile). On desktop browsers without navigator.share, hide it so
+  // there's no button that silently does nothing when tapped.
+  const nativeBtn = document.getElementById('btnShareNative');
+  if (nativeBtn) nativeBtn.style.display = navigator.share ? '' : 'none';
+  document.getElementById('shareModal').classList.add('show');
+}
+function closeShareModal(e) {
+  if (e === null || e.target === document.getElementById('shareModal')) {
+    document.getElementById('shareModal').classList.remove('show');
+  }
+}
+
+function _buildRecipeText(r) {
+  const t = T[currentLang] || T.en;
+  let lines = [];
+  lines.push('📖 ' + r.title);
+  if (r.description) lines.push('\n' + r.description);
+  lines.push('');
+  if (r.category) lines.push('🏷️ ' + categoryLabel(r.category, false));
+  if (r.prep)     lines.push('⏱️ ' + t.prepTime + ': ' + r.prep);
+  if (r.cook)     lines.push('🔥 ' + t.cookTime + ': ' + r.cook);
+  if (r.servings) lines.push('👥 ' + t.servings + ': ' + r.servings);
+  if (r.difficulty) lines.push('📊 ' + t.difficulty + ': ' + difficultyLabel(r.difficulty));
+  if (r.tags)     lines.push('🔖 ' + r.tags);
+
+  if (r.ingredients) {
+    lines.push('\n🧄 ' + t.ingredients + ':');
+    r.ingredients.split('\n').filter(Boolean).forEach(i => lines.push('• ' + i));
+  }
+  if (r.method) {
+    lines.push('\n🥄 ' + t.method + ':');
+    r.method.split('\n').filter(Boolean).forEach((s,i) => lines.push((i+1) + '. ' + s));
+  }
+  if (r.tips) {
+    lines.push('\n💡 ' + t.tips + ':');
+    lines.push(r.tips);
+  }
+  return lines.join('\n');
+}
+
+function shareRecipeText(method) {
+  const r = recipes.find(x => x.id === viewingId);
+  if (!r) return;
+  const text = _buildRecipeText(r);
+
+  if (method === 'copy') {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('✓ ' + r.title);
+      closeShareModal(null);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast('✓ Copied!');
+      closeShareModal(null);
+    });
+  } else if (method === 'whatsapp') {
+    const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+    window.open(url, '_blank');
+    closeShareModal(null);
+  } else if (method === 'email') {
+    const t = T[currentLang] || T.en;
+    const subject = (t.shareEmailSubject || 'Recipe: ') + r.title;
+    window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
+    closeShareModal(null);
+  } else if (method === 'native') {
+    // navigator.share is unavailable on most desktop browsers — instead of
+    // failing silently there, fall back to copying so the button always
+    // does something visible for the user.
+    if (navigator.share) {
+      navigator.share({ title: r.title, text: text })
+        .then(() => closeShareModal(null))
+        .catch((err) => {
+          // AbortError = user cancelled the native sheet themselves; do nothing.
+          if (err && err.name === 'AbortError') return;
+          navigator.clipboard.writeText(text).then(() => { showToast('✓ Copied!'); closeShareModal(null); });
+        });
+    } else {
+      navigator.clipboard.writeText(text).then(() => { showToast('✓ Copied!'); closeShareModal(null); });
+    }
+  }
+}
+
+function shareRecipeLink(method) {
+  const r = recipes.find(x => x.id === viewingId);
+  if (!r) return;
+
+  // Encode the recipe as a compact base64 URL param so the recipient
+  // can open it in their own copy of the app (the photo is excluded
+  // to keep the URL short; everything else is included).
+  const payload = { ...r };
+  delete payload.photo; // skip photo to keep URL manageable
+  let encoded;
+  try { encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))); } catch(e) { encoded = ''; }
+  const baseUrl = window.location.href.split('?')[0].split('#')[0];
+  const link = baseUrl + '?import=' + encoded;
+
+  const t = T[currentLang] || T.en;
+  const msg = '📖 ' + r.title + '\n\n' + link;
+
+  if (method === 'copy') {
+    navigator.clipboard.writeText(link).then(() => {
+      showToast('🔗 ' + (t.shareLinkCopy || 'Link copied!'));
+      closeShareModal(null);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = link; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast('🔗 Copied!'); closeShareModal(null);
+    });
+  } else if (method === 'whatsapp') {
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+    closeShareModal(null);
+  } else if (method === 'email') {
+    const subject = (t.shareEmailSubject || 'Recipe: ') + r.title;
+    window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(msg);
+    closeShareModal(null);
+  }
+}
+
+// Check on load if there's an import param in the URL
+(function checkImport() {
+  const params = new URLSearchParams(window.location.search);
+  const imp = params.get('import');
+  if (!imp) return;
+  try {
+    const recipe = JSON.parse(decodeURIComponent(escape(atob(imp))));
+    recipe.id = Date.now();
+    window._pendingImport = recipe;
+    window._importAfterLoad = true;
+
+    // Show the banner inside the auth/lock overlay so the user sees what's waiting
+    const banner = document.getElementById('sharedRecipeBanner');
+    if (banner) {
+      banner.style.display = 'block';
+      const titleEl = document.getElementById('sharedBannerTitle');
+      const metaEl  = document.getElementById('sharedBannerMeta');
+      if (titleEl) titleEl.textContent = recipe.title || '?';
+      if (metaEl) {
+        const parts = [];
+        if (recipe.category) parts.push((typeof CATEGORY_EMOJI !== 'undefined' ? CATEGORY_EMOJI[recipe.category] || '' : '') + ' ' + recipe.category);
+        if (recipe.prep) parts.push('⏱ ' + recipe.prep);
+        if (recipe.servings) parts.push('👥 ' + recipe.servings);
+        metaEl.textContent = parts.join('  ·  ').trim();
+      }
+    }
+  } catch(e) {}
+  // Clean the URL so it doesn't re-trigger on refresh
+  history.replaceState({}, '', window.location.pathname);
+})();
+
+function _processPendingImport() {
+  if (!window._pendingImport) return;
+  const r = window._pendingImport;
+  window._pendingImport = null;
+  _showImportCard(r);
+}
+
+// Called from the banner on the auth/lock screen — user wants to preview before signing in
+function _previewSharedRecipe() {
+  if (!window._pendingImport) return;
+  _showImportCard(window._pendingImport, /* previewOnly */ true);
+}
+
+function _showImportCard(r, previewOnly) {
+  window._importRecipe = r;
+  const t = T[currentLang] || T.en;
+  const existing = document.getElementById('importOverlay');
+  if (existing) existing.remove();
+
+  const catEmoji = (r.category && (typeof CATEGORY_EMOJI !== 'undefined') ? CATEGORY_EMOJI[r.category] : '') || '🍴';
+
+  // Build a compact preview of ingredients and method
+  const ingLines = r.ingredients ? r.ingredients.split('\n').filter(Boolean) : [];
+  const methLines = r.method ? r.method.split('\n').filter(Boolean) : [];
+
+  const ingPreview = ingLines.length ? `
+    <div style="margin-top:12px;text-align:right;">
+      <div style="font-size:.65rem;letter-spacing:.1em;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:5px;">🧄 ${t.ingredients||'Ingredients'}</div>
+      ${ingLines.slice(0,5).map(i=>`<div style="font-size:.82rem;color:var(--text2);padding:2px 0;">• ${i}</div>`).join('')}
+      ${ingLines.length > 5 ? `<div style="font-size:.75rem;color:var(--text3);">+ ${ingLines.length-5} more…</div>` : ''}
+    </div>` : '';
+
+  const methPreview = methLines.length ? `
+    <div style="margin-top:10px;text-align:right;">
+      <div style="font-size:.65rem;letter-spacing:.1em;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:5px;">🥄 ${t.method||'Method'}</div>
+      ${methLines.slice(0,3).map((s,i)=>`<div style="font-size:.82rem;color:var(--text2);padding:2px 0;">${i+1}. ${s}</div>`).join('')}
+      ${methLines.length > 3 ? `<div style="font-size:.75rem;color:var(--text3);">+ ${methLines.length-3} more steps…</div>` : ''}
+    </div>` : '';
+
+  const tipsPreview = r.tips ? `
+    <div style="margin-top:10px;background:var(--accent-light);border-radius:10px;padding:10px 12px;text-align:right;">
+      <div style="font-size:.65rem;letter-spacing:.1em;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:4px;">💡 ${t.tips||'Tips'}</div>
+      <div style="font-size:.82rem;color:var(--text2);">${r.tips.slice(0,120)}${r.tips.length>120?'…':''}</div>
+    </div>` : '';
+
+  // Save button: if user is logged in & allowed → save directly. If not → prompt sign-in.
+  const isLoggedInAndAllowed = !!window._currentUser && !document.body.classList.contains('auth-active');
+  const saveLabel = previewOnly
+    ? `🔐 ${t.googleSignIn||'Sign in to Save'}`
+    : `💾 ${t.saveRecipe||'Save Recipe'}`;
+  const saveAction = previewOnly
+    ? `_importSignInFirst()`
+    : `_confirmImport()`;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'importOverlay';
+  overlay.style.cssText = `
+    position:fixed;inset:0;background:rgba(0,0,0,0.65);
+    z-index:500;display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:1rem;
+    animation:fadeIn .25s ease;overflow-y:auto;
+  `;
+  overlay.innerHTML = `
+    <div style="
+      background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:1.6rem;max-width:420px;width:100%;
+      box-shadow:0 24px 80px rgba(0,0,0,0.4);
+      animation:slideUp .35s cubic-bezier(0.34,1.56,0.64,1);
+      max-height:90vh;overflow-y:auto;
+    ">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+        <button onclick="document.getElementById('importOverlay').remove()" style="
+          width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border);
+          background:transparent;color:var(--text3);font-size:.85rem;cursor:pointer;
+          display:flex;align-items:center;justify-content:center;">✕</button>
+        <div style="font-size:.65rem;letter-spacing:.12em;font-weight:700;color:var(--accent);text-transform:uppercase;">
+          📬 ${previewOnly ? (t.share||'Shared Recipe') : (t.importConfirm||'Add to Notebook?')}
+        </div>
+      </div>
+
+      <!-- Photo or emoji -->
+      <div style="text-align:center;margin-bottom:1rem;">
+        ${r.photo
+          ? `<img src="${r.photo}" style="width:100%;max-height:180px;object-fit:cover;border-radius:12px;border:1px solid var(--border);">`
+          : `<div style="font-size:4rem;line-height:1;">${catEmoji}</div>`}
+      </div>
+
+      <!-- Title & meta -->
+      <div style="text-align:center;margin-bottom:.8rem;">
+        <div style="font-family:var(--font-display);font-size:1.25rem;color:var(--text);font-weight:700;margin-bottom:.4rem;">${r.title}</div>
+        ${r.description ? `<div style="font-size:.84rem;color:var(--text3);line-height:1.4;">${r.description}</div>` : ''}
+        <div style="display:flex;gap:.4rem;justify-content:center;margin-top:.7rem;flex-wrap:wrap;">
+          ${r.category ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:20px;padding:3px 10px;font-size:.73rem;font-weight:700;">${catEmoji} ${r.category}</span>` : ''}
+          ${r.prep ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:20px;padding:3px 10px;font-size:.73rem;font-weight:700;">⏱ ${r.prep}</span>` : ''}
+          ${r.cook ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:20px;padding:3px 10px;font-size:.73rem;font-weight:700;">🔥 ${r.cook}</span>` : ''}
+          ${r.servings ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:20px;padding:3px 10px;font-size:.73rem;font-weight:700;">👥 ${r.servings}</span>` : ''}
+        </div>
+      </div>
+
+      <!-- Content preview -->
+      <div style="border-top:1px solid var(--border);padding-top:12px;">
+        ${ingPreview}
+        ${methPreview}
+        ${tipsPreview}
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;gap:.7rem;margin-top:1.2rem;">
+        <button onclick="document.getElementById('importOverlay').remove()" style="
+          flex:1;padding:11px;border-radius:var(--radius-sm);
+          border:1.5px solid var(--border);background:transparent;
+          color:var(--text2);font-family:var(--font-body);font-size:.88rem;font-weight:700;cursor:pointer;
+        ">${t.cancel||'Cancel'}</button>
+        <button onclick="${saveAction}" style="
+          flex:2;padding:11px;border-radius:var(--radius-sm);
+          border:none;background:var(--accent);
+          color:#fff;font-family:var(--font-body);font-size:.88rem;font-weight:700;cursor:pointer;
+        ">${saveLabel}</button>
+      </div>
+    </div>
+    <style>
+      @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+      @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    </style>
+  `;
+  document.body.appendChild(overlay);
+}
+
+function _confirmImport() {
+  const r = window._importRecipe;
+  if (!r) return;
+  window._importRecipe = null;
+  document.getElementById('importOverlay')?.remove();
+  recipes.push(r);
+  localStorage.setItem('recipes', JSON.stringify(recipes));
+  scheduleFirestoreSave();
+  updateStats();
+  showToast('✓ ' + r.title);
+  viewRecipe(r.id);
+}
+
+// Called from preview card when user is not yet signed in
+function _importSignInFirst() {
+  // Keep the pending import alive and close the preview card
+  if (window._importRecipe && !window._pendingImport) {
+    window._pendingImport = window._importRecipe;
+    window._importAfterLoad = true;
+  }
+  document.getElementById('importOverlay')?.remove();
+  // The auth overlay is already visible behind — nothing else needed
+  showToast('👆 Sign in to save the recipe');
+}
+
+// ══════════════════════════════════════════════
+// INIT — restore all saved preferences
+// ══════════════════════════════════════════════
+applyAll();
+// Note: pending import is processed inside _loadFromFirestore after the first snapshot,
+// ensuring the user is authenticated and their data is loaded first.
+</script>
+</body>
+</html>
